@@ -1,0 +1,9 @@
+services:
+  unibot:
+    build: .
+    container_name: unibot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
