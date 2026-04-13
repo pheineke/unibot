@@ -8,7 +8,7 @@ load_dotenv()
 
 # Bot settings
 TOKEN = os.getenv('DISCORD_TOKEN')
-PREFIX = '!'
+PREFIX = '~'
 INTENTS_FLAGS = {
     'message_content': True,
     'members': True,

@@ -3,7 +3,7 @@
         "id": 1052257284304162828
     },
     "embed": {
-        "title": "\ud83c\udf7d\ufe0f Mensa Schedule",
+        "title": "🍽️ Mensa Schedule",
         "description": "React with the corresponding timezone emoji below to coordinate when you're heading to the Mensa today!\n\n_The schedule is automatically reset every day at 14:00._"
     },
     "reset-time": "14:00",
@@ -11,27 +11,28 @@
         "time-0": {
             "time": "11:30",
             "users": [],
-            "emoji": "1\ufe0f\u20e3"
+            "emoji": "1️⃣"
         },
         "time-1": {
             "time": "11:45",
             "users": [],
-            "emoji": "2\ufe0f\u20e3"
+            "emoji": "2️⃣"
         },
         "time-2": {
             "time": "12:15",
             "users": [],
-            "emoji": "3\ufe0f\u20e3"
+            "emoji": "3️⃣"
         },
         "time-3": {
             "time": "12:45",
             "users": [],
-            "emoji": "4\ufe0f\u20e3"
+            "emoji": "4️⃣"
         },
         "time-4": {
             "time": "13:30",
             "users": [],
-            "emoji": "5\ufe0f\u20e3"
+            "emoji": "5️⃣"
         }
-    }
+    },
+    "message_id": 1493237805911117904
 }
