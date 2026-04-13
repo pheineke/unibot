@@ -20,12 +20,12 @@ class ApplyStructureClient(discord.Client):
     async def on_ready(self):
         print(f'Logged in as {self.user}')
         
-        if not os.path.exists('structure.json'):
+        if not os.path.exists('data/structure.json'):
             print("❌ structure.json not found!")
             await self.close()
             return
 
-        with open('structure.json', 'r') as f:
+        with open('data/structure.json', 'r') as f:
             data = json.load(f)
             
         # Assuming the bot is only in one primary server for this script

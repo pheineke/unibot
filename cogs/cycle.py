@@ -40,10 +40,10 @@ class Cycle(commands.Cog):
         if today.weekday() != 0:
             return
             
-        if not os.path.exists('structure.json'):
+        if not os.path.exists('data/structure.json'):
             return
             
-        with open('structure.json', 'r') as f:
+        with open('data/structure.json', 'r') as f:
             data = json.load(f)
             
         guild = self.bot.guilds[0] # Assuming bot is in 1 main guild
@@ -119,15 +119,15 @@ class Cycle(commands.Cog):
         Cycle (move) channels from one season's category to another.
         Usage: !cycle summer winter
         """
-        if not os.path.exists('structure.json'):
-            await ctx.send("❌ `structure.json` not found.")
+        if not os.path.exists('data/structure.json'):
+            await ctx.send("❌ `data/structure.json` not found.")
             return
             
-        with open('structure.json', 'r') as f:
+        with open('data/structure.json', 'r') as f:
             data = json.load(f)
             
         if from_season not in data or to_season not in data:
-            await ctx.send(f"❌ Both `{from_season}` and `{to_season}` must exist in structure.json")
+            await ctx.send(f"❌ Both `{from_season}` and `{to_season}` must exist in data/structure.json")
             return
             
         to_category_id = data[to_season]["category"]["id"]

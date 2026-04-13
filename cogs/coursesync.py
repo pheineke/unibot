@@ -57,11 +57,11 @@ class CourseSync(commands.Cog):
         await self._update_link(ctx, "office-kis", url)
 
     async def _update_link(self, ctx, link_name: str, url: str):
-        if not os.path.exists('structure.json'):
-            await ctx.send("❌ `structure.json` not found.")
+        if not os.path.exists('data/structure.json'):
+            await ctx.send("❌ `data/structure.json` not found.")
             return
             
-        with open('structure.json', 'r') as f:
+        with open('data/structure.json', 'r') as f:
             data = json.load(f)
             
         # Find the current channel in data
@@ -93,10 +93,10 @@ class CourseSync(commands.Cog):
                 break
                 
         if not found:
-            await ctx.send("❌ This channel is not registered as a course in `structure.json`.")
+            await ctx.send("❌ This channel is not registered as a course in `data/structure.json`.")
             return
             
-        with open('structure.json', 'w') as f:
+        with open('data/structure.json', 'w') as f:
             json.dump(data, f, indent=4)
             
         await ctx.send(f"✅ Updated {link_name} link and channel topic!")
@@ -110,10 +110,10 @@ class CourseSync(commands.Cog):
     async def perform_sync(self):
         """Core sync logic to run on command, startup, or daily"""
         print(f"[{datetime.datetime.now(datetime.timezone.utc)}] Running course sync...")
-        if not os.path.exists('structure.json'):
+        if not os.path.exists('data/structure.json'):
             return
             
-        with open('structure.json', 'r') as f:
+        with open('data/structure.json', 'r') as f:
             data = json.load(f)
             
         if not self.bot.guilds:
@@ -188,9 +188,9 @@ class CourseSync(commands.Cog):
                                 print(f"Failed to enforce topic structure for {channel.name}: {e}")
 
         if changes_made:
-            with open('structure.json', 'w') as f:
+            with open('data/structure.json', 'w') as f:
                 json.dump(data, f, indent=4)
-            print("Daily sync completed and saved to structure.json.")
+            print("Daily sync completed and saved to data/structure.json.")
         else:
             print("Daily sync completed. No manual edits found.")
 

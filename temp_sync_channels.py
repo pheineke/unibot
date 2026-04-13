@@ -20,7 +20,7 @@ class TempClient(discord.Client):
         print(f'Logged in as {self.user}')
         
         # Load the existing structure
-        with open('structure.json', 'r') as f:
+        with open('data/structure.json', 'r') as f:
             data = json.load(f)
             
         guild = self.guilds[0] # Assumes the bot is in the server we want
@@ -63,7 +63,7 @@ class TempClient(discord.Client):
             data[season]["courses"] = new_courses
             print(f"Updated {season} with {len(new_courses)} courses.")
 
-        with open('structure.json', 'w') as f:
+        with open('data/structure.json', 'w') as f:
             json.dump(data, f, indent=4)
             
         print("Updated structure.json successfully.")

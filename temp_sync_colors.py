@@ -17,11 +17,11 @@ class ColorSyncClient(discord.Client):
     async def on_ready(self):
         await self.wait_until_ready()
         print(f'Logged in as {self.user}')
-        if not os.path.exists('structure.json'):
+        if not os.path.exists('data/structure.json'):
             await self.close()
             return
 
-        with open('structure.json', 'r') as f:
+        with open('data/structure.json', 'r') as f:
             data = json.load(f)
             
         guild = self.guilds[0]
@@ -48,7 +48,7 @@ class ColorSyncClient(discord.Client):
                         print(f"Role {role_info['id']} not found on server")
 
         if changes > 0:
-            with open('structure.json', 'w') as f:
+            with open('data/structure.json', 'w') as f:
                 json.dump(data, f, indent=4)
             print(f"Saved {changes} color changes to structure.json")
         else:

@@ -2,7 +2,7 @@ import json
 import sys
 
 try:
-    with open("structure.json", "r") as f:
+    with open("data/structure.json", "r") as f:
         data = json.load(f)
 
     # 1. Update kss
@@ -39,7 +39,7 @@ try:
         "module": "MAT-02-13-M-1"
     })
 
-    with open("structure.json", "w") as f:
+    with open("data/structure.json", "w") as f:
         json.dump(data, f, indent=4)
     print("Success")
 except Exception as e:

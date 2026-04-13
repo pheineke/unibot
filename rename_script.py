@@ -1,6 +1,6 @@
 import json
 
-with open("structure.json", "r") as f:
+with open("data/structure.json", "r") as f:
     data = json.load(f)
 
 mapping = {
@@ -33,5 +33,5 @@ for season in ["summer", "winter"]:
             c["name"] = mapping[old_name]["name"]
             c["module"] = mapping[old_name]["module"]
 
-with open("structure.json", "w") as f:
+with open("data/structure.json", "w") as f:
     json.dump(data, f, indent=4)

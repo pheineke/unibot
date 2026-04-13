@@ -1,7 +1,7 @@
 import json
 
 try:
-    with open("structure.json", "r") as f:
+    with open("data/structure.json", "r") as f:
         data = json.load(f)
 
     # Map modules to sections based on the HTML structure
@@ -61,7 +61,7 @@ try:
     if "various" in data and "section" not in data["various"]:
         data["various"]["section"] = "thesis"
 
-    with open("structure.json", "w") as f:
+    with open("data/structure.json", "w") as f:
         json.dump(data, f, indent=4)
         
     print("Successfully structured sections!")
