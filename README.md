@@ -1,133 +1,48 @@
-# Discord Bot Base
+# UniBot
 
-A modular Discord bot base built with discord.py using the Cogs system for easy expansion.
+A modular Discord bot designed to manage university courses, synchronize Discord channels with academic structures, automate semester transitions, provide interactive reaction roles, and coordinate daily Mensa (cafeteria) visits.
 
 ## Features
 
-- ✨ Modular cog-based architecture
-- 🔧 Easy command registration
-- ⚙️ Configurable settings
-- 📦 Pre-built example cogs
-- 🛡️ Error handling
+* **Course Synchronization (`!setlink`)**: Automatically syncs Discord channel names, role names, role colors, and topics (including OLAT/KIS links) with a persistent JSON state (`data/structure.json`). Runs daily and on startup to protect against manual, conflicting changes.
+* **Semester Category Cycling (`!cycle`)**: Automatically shifts course channels between "active semester" and "inactive semester" categories. Triggered automatically on the first Monday of a new semester (configurable in JSON), or manually via commands.
+* **Interactive Reaction Roles (`!rr`)**: Dynamically generates categorized reaction-role menus based on the academic curriculum structure. Features interactive setup prompts for missing emojis, groups options by subject area, and handles assigning/removing user roles seamlessly.
+* **Mensa Schedule Coordination**: A daily resetting schedule (e.g. resets at 14:00) that allows users to react to time slots (11:30, 11:45, etc.) to coordinate lunch groups. Maintains a live-updating list of users alongside a centralized reaction embed.
+* **Custom Help System (`!help`)**: Deeply customized, embed-based dynamic help menu detailing categories, specific command usage, and syntax aliases.
 
-## Installation
+## Setup & Deployment (Docker)
 
-1. **Clone or download this repository**
+This bot is configured to run effortlessly out-of-the-box using Docker and Docker Compose, natively supporting architectures like the Raspberry Pi (ARM). 
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Setup environment variables**
-   ```bash
-   cp .env.example .env
-   ```
-   Then edit `.env` and add your Discord bot token:
-   ```
+### Configuration
+1. Clone the repository to your host machine.
+2. Create a `.env` file in the root directory and add your bot token:
+   ```env
    DISCORD_TOKEN=your_bot_token_here
    ```
+3. Ensure your initial JSON state configurations (`structure.json` and `mensa.json`) are located properly in the `data/` directory.
 
-## Getting Your Bot Token
+### Starting the Bot
 
-1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
-2. Click "New Application"
-3. Go to "Bot" section and click "Add Bot"
-4. Under TOKEN, click "Copy" to copy your bot token
-5. Paste it in your `.env` file
-
-## Running the Bot
+To build the image and start the bot as a persistent background service, run:
 
 ```bash
-python main.py
+docker compose up -d --build
 ```
+*(Note: If you are using an older installation, you may need to use `docker-compose` instead of `docker compose`)*
 
-## Project Structure
+The local `data/` folder is explicitly mounted as a volume. This guarantees any edits the bot makes (saving newly selected emojis, capturing Discord role color shifts, Mensa slots, etc.) are safely preserved on your host machine's drive, surviving reboots.
 
-```
-unibot/
-├── main.py              # Main bot file
-├── config.py            # Configuration settings
-├── requirements.txt     # Python dependencies
-├── .env.example         # Environment variables template
-├── .env                 # Environment variables (create from .env.example)
-└── cogs/               # Command modules (cogs)
-    ├── __init__.py
-    ├── ping.py         # Ping command example
-    ├── help.py         # Help command example
-    └── template.py     # Template for creating new cogs
-```
+### Updating the Bot
 
-## Creating New Commands
+When new features or fixes are pushed to the repository, updating the live container takes just two commands.
 
-1. **Create a new file in the `cogs/` folder** (e.g., `cogs/mycommand.py`)
-
-2. **Use the template cog as a reference:**
-   ```python
-   import discord
-   from discord.ext import commands
-
-   class MyCommand(commands.Cog):
-       """Description of your cog"""
-       
-       def __init__(self, bot):
-           self.bot = bot
-       
-       @commands.command(name='mycommand')
-       async def my_command(self, ctx):
-           """Command description"""
-           await ctx.send('Hello!')
-   
-   async def setup(bot):
-       await bot.add_cog(MyCommand(bot))
+1. Pull the latest code from GitHub:
+   ```bash
+   git pull
    ```
-
-3. **Restart the bot** - It will automatically load your new cog!
-
-## Command Examples
-
-- `!ping` - Check bot latency
-- `!help` - Show all commands
-- `!help <command>` - Show help for a specific command
-
-## Available Cogs
-
-### Ping
-- `!ping` - Check bot responsiveness and latency
-
-### Help
-- `!help` - Display all available commands
-- `!help <command>` - Get help for a specific command
-
-## Configuration
-
-Edit `config.py` to customize:
-- `PREFIX` - Command prefix (default: `!`)
-- `COLORS` - Embed colors for different message types
-- `INTENTS_FLAGS` - Discord intents configuration
-
-## Troubleshooting
-
-**Bot not responding?**
-- Check that your token is correct in `.env`
-- Make sure the bot has proper permissions in your server
-- Check the bot's intent settings in Discord Developer Portal
-
-**Cogs not loading?**
-- Ensure cog files are in the `cogs/` folder
-- Check that each cog has the `async def setup(bot)` function
-- Look at console output for error messages
-
-**Command prefix not working?**
-- Change `PREFIX` in `config.py`
-- Restart the bot after making changes
-
-## Resources
-
-- [discord.py Documentation](https://discordpy.readthedocs.io/)
-- [Discord Developer Portal](https://discord.com/developers/applications)
-- [Discord.py GitHub](https://github.com/Rapptz/discord.py)
-
-## License
-
-Feel free to use this template for your own projects!
+2. Rebuild and restart the container in the background:
+   ```bash
+   docker compose up -d --build
+   ```
+Because of the volume binding, your exact `structure.json` environment rules remain untouched while the Python code gracefully updates!
