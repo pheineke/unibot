@@ -1,0 +1,47 @@
+{
+    "summer" : {
+        "category": {
+            "id": 1065377828402643044,
+            "name": "current-sem"
+        },
+        "courses": [
+            {
+                "name": "minv",
+                "id": 1493164142369177671,
+                "role": {
+                    "name": "minv",
+                    "id": 1293582108320862323
+                }
+            }
+        ],
+        "start": "01-04"
+    },
+    "winter": {
+        "category": {
+            "id": 1105534816658669669,
+            "name": "noncurrent-sem"
+        },
+        "courses": [
+            {
+                "name": "ki",
+                "id": 1293581996706103336,
+                "role": {
+                    "name": "ki",
+                    "id": 1493164035233812632
+                },
+                "links": [
+                    {
+                        "name": "olat",
+                        "link": "https://olat.vcrp.de/auth/MyCoursesSite/0/Courses/0/Infos/5151064783"
+                    }, 
+                    {
+                        "name": "office-kis",
+                        "link": "https://office.kis.uni-kl.de/views/campus/event.asp?body=fieldgguid=0x12D5B42435AB4A85A96B961812BB73E5&gguid=0x86A5FC00D8BC49399B4C280744CDBC27"
+                    }
+                ]
+            }
+        ],
+        "start": "01-10"
+    }
+        
+}
