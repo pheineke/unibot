@@ -7,6 +7,8 @@ import json
 import asyncio
 
 class ReactionRoles(commands.Cog):
+    """Module for setting up interactive course/section reaction roles."""
+    
     def __init__(self, bot):
         self.bot = bot
 
@@ -39,6 +41,12 @@ class ReactionRoles(commands.Cog):
     @rr_group.command(name='setup')
     @commands.has_permissions(manage_roles=True)
     async def rr_setup(self, ctx, target_channel: discord.TextChannel):
+        """
+        Interactively builds the reaction role directory inside a specific channel.
+        If any courses are missing emojis, the bot will prompt you to set them first.
+        It then deletes any old reaction messages and posts a fresh set grouped by section.
+        Usage: !rr setup #choose-roles
+        """
         data = self.get_data()
         courses = self.get_all_course_refs(data)
         
@@ -171,6 +179,11 @@ class ReactionRoles(commands.Cog):
     @rr_group.command(name='editemoji')
     @commands.has_permissions(manage_roles=True)
     async def rr_editemoji(self, ctx, *, course_name: str):
+        """
+        Manually replace or update an emoji for a specific course by reacting to the prompt.
+        Usage: !rr editemoji software development
+        After setting, you must run !rr setup again to visually refresh the embeds!
+        """
         data = self.get_data()
         courses = self.get_all_course_refs(data)
         
