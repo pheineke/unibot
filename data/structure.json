@@ -37,7 +37,7 @@
             },
             {
                 "lang": "ger",
-                "name": "\u00fcberfachliche-qualifikation"
+                "name": "überfachliche-qualifikation"
             }
         ],
         "specialization": [
@@ -103,7 +103,8 @@
                 "role": {
                     "name": "3dma",
                     "id": 1493212877547372695,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "tags": [
@@ -118,7 +119,8 @@
                 "role": {
                     "name": "sep",
                     "id": 1229775761129341069,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "section": "section-0",
@@ -130,7 +132,8 @@
                 "role": {
                     "name": "algodat",
                     "id": 1100427614402916352,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "section": "section-0",
@@ -142,7 +145,8 @@
                 "role": {
                     "name": "mathekss",
                     "id": 1229812239201075351,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "section": "section-1",
@@ -154,7 +158,8 @@
                 "role": {
                     "name": "web20",
                     "id": 1297636270205567130,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "section": "supplement"
@@ -165,7 +170,8 @@
                 "role": {
                     "name": "insy",
                     "id": 1231689952153042995,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "section": "section-2",
@@ -177,7 +183,8 @@
                 "role": {
                     "name": "fsub",
                     "id": 1229776969873358882,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "section": "section-1",
@@ -189,7 +196,8 @@
                 "role": {
                     "name": "mosy",
                     "id": 1105535264912326827,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "INF-02-12-M-2",
@@ -201,7 +209,8 @@
                 "role": {
                     "name": "kosy",
                     "id": 1100757487763865692,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "INF-02-13-M-2",
@@ -213,7 +222,8 @@
                 "role": {
                     "name": "dira",
                     "id": 1103669975669035128,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "INF-02-09-M-2",
@@ -225,7 +235,8 @@
                 "role": {
                     "name": "minv",
                     "id": 1493164035233812632,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "section": "specialization",
                 "specialization_ids": []
@@ -245,7 +256,8 @@
                 "role": {
                     "name": "logik",
                     "id": 1165724393268318299,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "INF-02-05-M-2",
@@ -257,7 +269,8 @@
                 "role": {
                     "name": "3dcv",
                     "id": 1429846883093844070,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "section": "specialization",
@@ -269,7 +282,8 @@
                 "role": {
                     "name": "ki",
                     "id": 1293582108320862323,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "INF-02-17-M-2",
@@ -281,7 +295,8 @@
                 "role": {
                     "name": "ewgai",
                     "id": 1429846769038262272,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "section": "specialization",
@@ -293,7 +308,8 @@
                 "role": {
                     "name": "scicomp",
                     "id": 1267988167857016842,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "INF-02-07-M-2",
@@ -305,7 +321,8 @@
                 "role": {
                     "id": 1493214033225060433,
                     "name": "compgeom",
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "section": "specialization",
@@ -314,7 +331,9 @@
             {
                 "name": "distributed-and-concurrent-systems",
                 "id": 1165723572757602324,
-                "role": {},
+                "role": {
+                    "emoji": "📚"
+                },
                 "links": [],
                 "module": "INF-02-03-M-2",
                 "section": "section-0"
@@ -325,7 +344,8 @@
                 "role": {
                     "name": "hci",
                     "id": 1293582335966711808,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "section": "specialization",
@@ -337,7 +357,8 @@
                 "role": {
                     "name": "datavis",
                     "id": 1293583710536601600,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "section": "specialization",
@@ -349,7 +370,8 @@
                 "role": {
                     "name": "rosy",
                     "id": 1165724104792477787,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "INF-02-10-M-2",
@@ -361,7 +383,8 @@
                 "role": {
                     "name": "netsec",
                     "id": 1348671568343203851,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "INF-02-15-M-2",
@@ -373,7 +396,8 @@
                 "role": {
                     "name": "infges",
                     "id": 1165724484188258385,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "INF-02-22-M-2",
@@ -385,7 +409,8 @@
                 "role": {
                     "name": "mathe",
                     "id": 1129469008354218094,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "MAT-02-11-M-1",
@@ -397,7 +422,8 @@
                 "role": {
                     "name": "gdp",
                     "id": 1129468797640790116,
-                    "color": "#206694"
+                    "color": "#206694",
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "INF-02-01-M-2",
@@ -408,7 +434,8 @@
                 "id": 999999999999999999,
                 "role": {
                     "name": "analysis",
-                    "id": 999999999999999998
+                    "id": 999999999999999998,
+                    "emoji": "📚"
                 },
                 "links": [],
                 "module": "MAT-02-13-M-1",
