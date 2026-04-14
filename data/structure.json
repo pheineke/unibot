@@ -91,106 +91,6 @@
             }
         ]
     },
-    "Other Specializations": {
-        "courses": [
-            {
-                "name": "3D-Modellierung und Animation",
-                "id": 1493164690975756328,
-                "role": {
-                    "name": "3dma",
-                    "id": 1493212877547372695,
-                    "color": "#206694",
-                    "emoji": "\ud83e\uddc4"
-                },
-                "links": [],
-                "tags": [
-                    "eit"
-                ],
-                "section": "specialization",
-                "specialization_ids": [],
-                "module": "EIT-DEK-922-M-4"
-            },
-            {
-                "name": "Fundamentals of Microelectronics",
-                "id": 1493164142369177671,
-                "role": {
-                    "name": "minv",
-                    "id": 1493164035233812632,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf52"
-                },
-                "section": "specialization",
-                "specialization_ids": [],
-                "module": "EIT-EMS-708-M-4"
-            },
-            {
-                "name": "3D Computer Vision",
-                "id": 1429792896214896761,
-                "role": {
-                    "name": "3dcv",
-                    "id": 1429846883093844070,
-                    "color": "#206694",
-                    "emoji": "\ud83e\udd6c"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": []
-            },
-            {
-                "name": "Engineering with Generative AI",
-                "id": 1429789841889165352,
-                "role": {
-                    "name": "ewgai",
-                    "id": 1429846769038262272,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf46"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": [],
-                "description": "Engineering with Generative AI"
-            },
-            {
-                "name": "Computational Geometry",
-                "id": 1267989044713881621,
-                "role": {
-                    "id": 1493214033225060433,
-                    "name": "compgeom",
-                    "color": "#206694",
-                    "emoji": "\ud83e\udd6d"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": []
-            },
-            {
-                "name": "Human Computer Interaction",
-                "id": 1293583225133994024,
-                "role": {
-                    "name": "hci",
-                    "id": 1293582335966711808,
-                    "color": "#206694",
-                    "emoji": "\ud83e\uded0"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": []
-            },
-            {
-                "name": "Data Visualization",
-                "id": 1293583636091899945,
-                "role": {
-                    "name": "datavis",
-                    "id": 1293583710536601600,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf36"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": []
-            }
-        ]
-    },
     "Software Development": {
         "courses": [
             {
@@ -343,6 +243,36 @@
                 },
                 "links": [],
                 "section": "supplement"
+            },
+            {
+                "name": "3D-Modellierung und Animation",
+                "id": 1493164690975756328,
+                "role": {
+                    "name": "3dma",
+                    "id": 1493212877547372695,
+                    "color": "#206694",
+                    "emoji": "\ud83e\uddc4"
+                },
+                "links": [],
+                "tags": [
+                    "eit"
+                ],
+                "section": "supplement",
+                "specialization_ids": [],
+                "module": "EIT-DEK-922-M-4"
+            },
+            {
+                "name": "Fundamentals of Microelectronics",
+                "id": 1493164142369177671,
+                "role": {
+                    "name": "minv",
+                    "id": 1493164035233812632,
+                    "color": "#206694",
+                    "emoji": "\ud83c\udf52"
+                },
+                "section": "supplement",
+                "specialization_ids": [],
+                "module": "EIT-EMS-708-M-4"
             }
         ]
     },
@@ -688,19 +618,6 @@
     "Intelligent Systems": {
         "courses": [
             {
-                "name": "3D Computer Vision",
-                "section": "specialization",
-                "specialization_ids": [
-                    3
-                ],
-                "id": 305033502936830041,
-                "role": {
-                    "name": "3dcomputervision",
-                    "id": 269970557975553924,
-                    "emoji": "\ud83c\udf45"
-                }
-            },
-            {
                 "name": "Quantum Computing and its Applications in AI",
                 "section": "specialization",
                 "specialization_ids": [
@@ -727,17 +644,35 @@
                 }
             },
             {
+                "name": "3D Computer Vision",
+                "id": 1429792896214896761,
+                "role": {
+                    "name": "3dcv",
+                    "id": 1429846883093844070,
+                    "color": "#206694",
+                    "emoji": "\ud83e\udd6c"
+                },
+                "links": [],
+                "section": "specialization",
+                "specialization_ids": [
+                    3
+                ]
+            },
+            {
                 "name": "Engineering with Generative AI",
+                "id": 1429789841889165352,
+                "role": {
+                    "name": "ewgai",
+                    "id": 1429846769038262272,
+                    "color": "#206694",
+                    "emoji": "\ud83c\udf46"
+                },
+                "links": [],
                 "section": "specialization",
                 "specialization_ids": [
                     3
                 ],
-                "id": 931274507194469591,
-                "role": {
-                    "name": "engineeringwithgenerativeai",
-                    "id": 839122876916046551,
-                    "emoji": "\ud83e\udd66"
-                }
+                "description": "Engineering with Generative AI"
             }
         ]
     },
@@ -801,42 +736,48 @@
             },
             {
                 "name": "Computational Geometry",
+                "id": 1267989044713881621,
+                "role": {
+                    "id": 1493214033225060433,
+                    "name": "compgeom",
+                    "color": "#206694",
+                    "emoji": "\ud83e\udd6d"
+                },
+                "links": [],
                 "section": "specialization",
                 "specialization_ids": [
                     6
-                ],
-                "id": 809205051106698012,
-                "role": {
-                    "name": "computationalgeometry",
-                    "id": 973674520349867870,
-                    "emoji": "\ud83c\udf3d"
-                }
+                ]
             },
             {
                 "name": "Human Computer Interaction",
+                "id": 1293583225133994024,
+                "role": {
+                    "name": "hci",
+                    "id": 1293582335966711808,
+                    "color": "#206694",
+                    "emoji": "\ud83e\uded0"
+                },
+                "links": [],
                 "section": "specialization",
                 "specialization_ids": [
                     6
-                ],
-                "id": 987815140239529537,
-                "role": {
-                    "name": "humancomputerinteraction",
-                    "id": 287501775886186286,
-                    "emoji": "\ud83e\udd55"
-                }
+                ]
             },
             {
                 "name": "Data Visualization",
+                "id": 1293583636091899945,
+                "role": {
+                    "name": "datavis",
+                    "id": 1293583710536601600,
+                    "color": "#206694",
+                    "emoji": "\ud83c\udf36"
+                },
+                "links": [],
                 "section": "specialization",
                 "specialization_ids": [
                     6
-                ],
-                "id": 213288864921460252,
-                "role": {
-                    "name": "datavisualization",
-                    "id": 389532260393576350,
-                    "emoji": "\ud83e\uddc4"
-                }
+                ]
             }
         ]
     }
