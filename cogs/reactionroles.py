@@ -109,9 +109,14 @@ class ReactionRoles(commands.Cog):
             if key in ["section", "reaction_messages", "reaction_channel", "semester_config"]:
                 continue
             if isinstance(value, dict) and "courses" in value:
-                courses.extend(value["courses"])
+                for c in value["courses"]:
+                    c_copy = dict(c)
+                    c_copy["__runtime_section"] = key
+                    courses.append(c_copy)
             elif isinstance(value, dict) and "role" in value and "id" in value:
-                courses.append(value)
+                v_copy = dict(value)
+                v_copy["__runtime_section"] = key
+                courses.append(v_copy)
         return courses
 
     async def _prompt_missing_emojis(self, ctx, data, courses):
@@ -146,81 +151,69 @@ class ReactionRoles(commands.Cog):
             try:
                 reaction, user = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
                 chosen_emoji = str(reaction.emoji)
-                for c_ref in courses:
-                    if c_ref.get("id") == c_id:
-                        c_ref.setdefault("role", {})["emoji"] = chosen_emoji
+                
+                # Apply mutation back to original DATA structure properly!
+                for k, v in data.items():
+                    if isinstance(v, dict) and "courses" in v:
+                        for data_c in v["courses"]:
+                            if data_c.get("id") == c_id:
+                                data_c.setdefault("role", {})["emoji"] = chosen_emoji
                 self.save_data(data)
+                
                 await msg.edit(content=f"✅ Set {chosen_emoji} for **{course.get('name')}**.")
             except asyncio.TimeoutError:
                 await msg.edit(content=f"⏳ Timed out waiting. Using default 📚 for **{course.get('name')}**.")
-                for c_ref in courses:
-                    if c_ref.get("id") == c_id:
-                        c_ref.setdefault("role", {})["emoji"] = "📚"
+                
+                for k, v in data.items():
+                    if isinstance(v, dict) and "courses" in v:
+                        for data_c in v["courses"]:
+                            if data_c.get("id") == c_id:
+                                data_c.setdefault("role", {})["emoji"] = "📚"
                 self.save_data(data)
                 
         return self.get_data(), self.get_all_course_refs(self.get_data())
 
     def _build_section_groups(self, data, courses):
         SECTION_ORDER = [
-            "section-0",
-            "section-1",
-            "section-2",
-            "section-3",
+            "Software Development",
+            "Theoretical Foundations",
+            "Computer Science Systems",
+            "Interdisciplinary Qualification",
+            "Algorithms and Deduction",
+            "Embedded Systems and Robotics",
+            "Information Systems",
+            "Intelligent Systems",
+            "Software Engineering",
+            "Distributed and Networked Systems",
+            "Visualization and Scientific Computing",
+            "Supplement",
+            "Bachelor Thesis"
         ]
         
-        spec_defs = data.get("section", {}).get("specialization", [])
-        for s in spec_defs:
-            SECTION_ORDER.append(f"specialization_{s['id']}")
-            
-        SECTION_ORDER.extend([
-            "specialization_other",
-            "supplement",
-            "thesis"
-        ])
-        
-        section_groups = {sec: [] for sec in SECTION_ORDER}
-        
-        processed_ids = set()
-        for c in courses:
-            if c.get("id") in processed_ids: continue
-            processed_ids.add(c.get("id"))
-            
-            if "role" not in c or "id" not in c["role"]: continue
-            if c.get("disabled_rr"): continue # skip disabled
-                
-            sec = c.get("section", "unknown")
-            if sec == "specialization":
-                sids = c.get("specialization_ids", [])
-                if not sids:
-                    section_groups["specialization_other"].append(c)
-                else:
-                    for sid in sids:
-                        target_sec = f"specialization_{sid}"
-                        if target_sec not in section_groups:
-                            section_groups[target_sec] = []
-                        section_groups[target_sec].append(c)
-            else:
-                if sec not in section_groups:
-                    section_groups[sec] = []
-                section_groups[sec].append(c)
-            
-        # Remove empty sections
-        return {k: v for k, v in section_groups.items() if v}
+        section_groups = {}
+        for sec in SECTION_ORDER:
+            if sec in data and "courses" in data[sec]:
+                valid_courses = [c for c in data[sec]["courses"] if not c.get("disabled_rr") and "role" in c and "id" in c["role"]]
+                if valid_courses:
+                    section_groups[sec] = valid_courses
+                    
+        return section_groups
 
     def _build_message_content(self, data, sec, sec_courses):
-        sec_name = sec
-        if str(sec).startswith("specialization_"):
-            sid_str = sec.split("_")[1]
-            if sid_str == "other":
-                sec_name = "Other Specializations"
-            else:
-                try:
-                    sid = int(sid_str)
-                    spec_list = data.get("section", {}).get("specialization", [])
-                    sec_name = next((s["name"] for s in spec_list if s["id"] == sid), f"Category {sid}")
-                except:
-                    pass
-            sec_name = sec_name.replace('-', ' ').title()
+        sec_name = sec.replace('-', ' ').title()
+        
+        SPEC_NAMES = [
+            "Algorithms and Deduction",
+            "Embedded Systems and Robotics",
+            "Information Systems",
+            "Intelligent Systems",
+            "Software Engineering",
+            "Distributed and Networked Systems",
+            "Visualization and Scientific Computing",
+            "Other Specializations"
+        ]
+        
+        if sec in SPEC_NAMES:
             # For specializations, we return the title needed and the course lines separately
             lines = [f"Select your courses for **{sec_name}**:"]
             for c in sec_courses:
@@ -228,13 +221,8 @@ class ReactionRoles(commands.Cog):
                 mod = f" ({c['module']})" if "module" in c else ""
                 lines.append(f"{emoji} {c.get('name', 'Unknown')} - <#{c['id']}>")
             return sec_name, "\n".join(lines)
-
         else:
-            if "section" in data and sec in data["section"]:
-                eng_name = next((n["name"] for n in data["section"][sec] if n.get("lang") == "eng"), None)
-                if eng_name: sec_name = eng_name
-                    
-            lines = [f"### {sec_name.replace('-', ' ').upper()}"]
+            lines = [f"### {sec_name.upper()}"]
             for c in sec_courses:
                 emoji = c.get("role", {}).get("emoji", "❓")
                 mod = f" ({c['module']})" if "module" in c else ""
@@ -317,7 +305,7 @@ class ReactionRoles(commands.Cog):
                 if not sec_courses: continue
                 msg_content = self._build_message_content(data, sec, sec_courses)
                 
-                if str(sec).startswith("specialization_"):
+                if isinstance(msg_content, tuple):
                     topic_name, lines_content = msg_content
                     parent_msg = await target_channel.send(f"**{topic_name}**")
                     thread = await parent_msg.create_thread(name=topic_name, auto_archive_duration=10080)
@@ -375,7 +363,7 @@ class ReactionRoles(commands.Cog):
                 if not sec_courses: continue
                 msg_content = self._build_message_content(data, sec, sec_courses)
                 
-                if str(sec).startswith("specialization_"):
+                if isinstance(msg_content, tuple):
                     topic_name, lines_content = msg_content
                     
                     if sec in sec_to_msg:
@@ -552,7 +540,7 @@ class ReactionRoles(commands.Cog):
         courses = self.get_all_course_refs(data)
         
         role_id = next((c.get("role", {}).get("id") for c in courses 
-                       if (c.get("section") == section or (section.startswith("specialization_") and c.get("section") == "specialization"))
+                       if c.get("__runtime_section") == section
                        and c.get("role", {}).get("emoji") == emoji_str
                        and not c.get("disabled_rr")), None)
                        

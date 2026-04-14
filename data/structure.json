@@ -103,7 +103,6 @@
                     "emoji": "\ud83e\udd51"
                 },
                 "links": [],
-                "section": "section-0",
                 "module": "INF-02-20-M-2"
             },
             {
@@ -116,7 +115,6 @@
                     "emoji": "\ud83e\udd55"
                 },
                 "links": [],
-                "section": "section-0",
                 "module": "INF-02-06-M-2",
                 "description": "Ich kam, sah und weinte"
             },
@@ -130,8 +128,7 @@
                     "emoji": "\ud83e\udd66"
                 },
                 "links": [],
-                "module": "INF-02-12-M-2",
-                "section": "section-0"
+                "module": "INF-02-12-M-2"
             },
             {
                 "name": "Distributed and Concurrent Systems",
@@ -141,7 +138,6 @@
                 },
                 "links": [],
                 "module": "INF-02-03-M-2",
-                "section": "section-0",
                 "description": "Klausur Tag: 04.03.2024 Uhrzeit: 8:15 Raum: TBA (stand 07.02.2024)"
             },
             {
@@ -154,8 +150,7 @@
                     "emoji": "\ud83e\uded2"
                 },
                 "links": [],
-                "module": "INF-02-01-M-2",
-                "section": "section-0"
+                "module": "INF-02-01-M-2"
             }
         ]
     },
@@ -171,7 +166,6 @@
                     "emoji": "\ud83c\udf51"
                 },
                 "links": [],
-                "section": "section-1",
                 "module": "MAT-02-12-M-1",
                 "description": "https://agag-jboehm.math.rptu.de/~boehm/lehre/24_MfI_KSS/"
             },
@@ -185,7 +179,6 @@
                     "emoji": "\ud83c\udf4b"
                 },
                 "links": [],
-                "section": "section-1",
                 "module": "INF-02-04-M-2"
             },
             {
@@ -199,7 +192,6 @@
                 },
                 "links": [],
                 "module": "INF-02-05-M-2",
-                "section": "section-1",
                 "description": "Klausur Tag: 11.02.2026 Uhrzeit: TBA Raum: TBA"
             },
             {
@@ -213,7 +205,6 @@
                 },
                 "links": [],
                 "module": "MAT-02-11-M-1",
-                "section": "section-1",
                 "description": "KSS: https://agag-jboehm.math.rptu.de/~boehm/lehre/24_MfI_KSS/"
             },
             {
@@ -225,8 +216,7 @@
                     "emoji": "\ud83e\uded1"
                 },
                 "links": [],
-                "module": "MAT-02-13-M-1",
-                "section": "section-1"
+                "module": "MAT-02-13-M-1"
             }
         ]
     },
@@ -241,8 +231,7 @@
                     "color": "#206694",
                     "emoji": "\ud83c\udf3d"
                 },
-                "links": [],
-                "section": "supplement"
+                "links": []
             },
             {
                 "name": "3D-Modellierung und Animation",
@@ -257,8 +246,6 @@
                 "tags": [
                     "eit"
                 ],
-                "section": "supplement",
-                "specialization_ids": [],
                 "module": "EIT-DEK-922-M-4"
             },
             {
@@ -270,8 +257,6 @@
                     "color": "#206694",
                     "emoji": "\ud83c\udf52"
                 },
-                "section": "supplement",
-                "specialization_ids": [],
                 "module": "EIT-EMS-708-M-4"
             }
         ]
@@ -288,7 +273,6 @@
                     "emoji": "\ud83c\udf45"
                 },
                 "links": [],
-                "section": "section-2",
                 "module": "INF-00-12-M-2"
             },
             {
@@ -301,8 +285,7 @@
                     "emoji": "\ud83c\udf4d"
                 },
                 "links": [],
-                "module": "INF-02-13-M-2",
-                "section": "section-2"
+                "module": "INF-02-13-M-2"
             },
             {
                 "name": "Digital Systems and Computer Architecture",
@@ -315,7 +298,6 @@
                 },
                 "links": [],
                 "module": "INF-02-09-M-2",
-                "section": "section-2",
                 "description": "Infos zur Klausur:\nhttps://hedge.fachschaft.informatik.uni-kl.de/SIlwKeUSQ8SkYykZlqopBw\n\nHowToDiRa(ReSy) von Pascal, und Marvin: https://docs.google.com/presentation/d/1DOxE2vTdQa5fnR3h5yynauXXd4qKoVydNHAjnJBOy9M/edit#slide=id.g8f2d2bd599_0_12"
             },
             {
@@ -328,8 +310,7 @@
                     "emoji": "\ud83c\udf49"
                 },
                 "links": [],
-                "module": "INF-02-17-M-2",
-                "section": "section-2"
+                "module": "INF-02-17-M-2"
             },
             {
                 "name": "Scientific Computing",
@@ -341,8 +322,7 @@
                     "emoji": "\ud83e\uddc5"
                 },
                 "links": [],
-                "module": "INF-02-07-M-2",
-                "section": "section-2"
+                "module": "INF-02-07-M-2"
             },
             {
                 "name": "Computer Organization and System Software",
@@ -355,7 +335,6 @@
                 },
                 "links": [],
                 "module": "INF-02-10-M-2",
-                "section": "section-2",
                 "description": "Klausur Tag: 26.03.2024 Uhrzeit: 8:30 \nRaum: H\u00f6rsaal 46-210:     Matrikelnummer < 423930\n             H\u00f6rsaal 46-215:     Matrikelnummer > 423930"
             },
             {
@@ -368,8 +347,7 @@
                     "emoji": "\ud83e\udd5d"
                 },
                 "links": [],
-                "module": "INF-02-15-M-2",
-                "section": "section-2"
+                "module": "INF-02-15-M-2"
             }
         ]
     },
@@ -386,7 +364,6 @@
                 },
                 "links": [],
                 "module": "INF-02-22-M-2",
-                "section": "section-3",
                 "description": "Zweig: zweig@cs.uni-kl.de"
             }
         ]
@@ -395,10 +372,6 @@
         "courses": [
             {
                 "name": "Foundations of Software Engineering",
-                "section": "specialization",
-                "specialization_ids": [
-                    4
-                ],
                 "id": 931360855088000544,
                 "role": {
                     "name": "foundationsofsoftwareengineering",
@@ -408,10 +381,6 @@
             },
             {
                 "name": "Compiler and Language Processing Tools",
-                "section": "specialization",
-                "specialization_ids": [
-                    4
-                ],
                 "id": 343151105066752478,
                 "role": {
                     "name": "compilerandlanguageprocessingtools",
@@ -421,10 +390,6 @@
             },
             {
                 "name": "Functional Programming",
-                "section": "specialization",
-                "specialization_ids": [
-                    4
-                ],
                 "id": 368486176038465274,
                 "role": {
                     "name": "functionalprogramming",
@@ -434,10 +399,6 @@
             },
             {
                 "name": "Foundations of Digital Farming",
-                "section": "specialization",
-                "specialization_ids": [
-                    4
-                ],
                 "id": 779526355480484467,
                 "role": {
                     "name": "foundationsofdigitalfarming",
@@ -447,10 +408,6 @@
             },
             {
                 "name": "Empirical Methods in Software Engineering",
-                "section": "specialization",
-                "specialization_ids": [
-                    4
-                ],
                 "id": 952545199151377853,
                 "role": {
                     "name": "empiricalmethodsinsoftwareengineering",
@@ -464,10 +421,6 @@
         "courses": [
             {
                 "name": "Algorithms on Strings",
-                "section": "specialization",
-                "specialization_ids": [
-                    0
-                ],
                 "id": 466080262562980676,
                 "role": {
                     "name": "algorithmsonstrings",
@@ -477,10 +430,6 @@
             },
             {
                 "name": "Advanced Automata Theory",
-                "section": "specialization",
-                "specialization_ids": [
-                    0
-                ],
                 "id": 270544458543438520,
                 "role": {
                     "name": "advancedautomatatheory",
@@ -490,10 +439,6 @@
             },
             {
                 "name": "Complexity Theory",
-                "section": "specialization",
-                "specialization_ids": [
-                    0
-                ],
                 "id": 188935731632561241,
                 "role": {
                     "name": "complexitytheory",
@@ -503,10 +448,6 @@
             },
             {
                 "name": "Automated Reasoning",
-                "section": "specialization",
-                "specialization_ids": [
-                    0
-                ],
                 "id": 841155103967164949,
                 "role": {
                     "name": "automatedreasoning",
@@ -516,10 +457,6 @@
             },
             {
                 "name": "Linear and Network Programming",
-                "section": "specialization",
-                "specialization_ids": [
-                    0
-                ],
                 "id": 300039782842148707,
                 "role": {
                     "name": "linearandnetworkprogramming",
@@ -529,10 +466,6 @@
             },
             {
                 "name": "Graphs and Algorithms",
-                "section": "specialization",
-                "specialization_ids": [
-                    0
-                ],
                 "id": 119465813142160571,
                 "role": {
                     "name": "graphsandalgorithms",
@@ -546,10 +479,6 @@
         "courses": [
             {
                 "name": "Fundamentals of Robotics",
-                "section": "specialization",
-                "specialization_ids": [
-                    1
-                ],
                 "id": 563005912378903077,
                 "role": {
                     "name": "fundamentalsofrobotics",
@@ -559,10 +488,6 @@
             },
             {
                 "name": "Fundamentals of Embedded Systems",
-                "section": "specialization",
-                "specialization_ids": [
-                    1
-                ],
                 "id": 183115917180451771,
                 "role": {
                     "name": "fundamentalsofembeddedsystems",
@@ -572,10 +497,6 @@
             },
             {
                 "name": "Processor Architecture",
-                "section": "specialization",
-                "specialization_ids": [
-                    1
-                ],
                 "id": 863743780414485494,
                 "role": {
                     "name": "processorarchitecture",
@@ -585,10 +506,6 @@
             },
             {
                 "name": "Parallel Computing",
-                "section": "specialization",
-                "specialization_ids": [
-                    1
-                ],
                 "id": 577276896896371513,
                 "role": {
                     "name": "parallelcomputing",
@@ -602,10 +519,6 @@
         "courses": [
             {
                 "name": "Database Systems",
-                "section": "specialization",
-                "specialization_ids": [
-                    2
-                ],
                 "id": 485354527199295640,
                 "role": {
                     "name": "databasesystems",
@@ -619,10 +532,6 @@
         "courses": [
             {
                 "name": "Quantum Computing and its Applications in AI",
-                "section": "specialization",
-                "specialization_ids": [
-                    3
-                ],
                 "id": 997909950823361053,
                 "role": {
                     "name": "quantumcomputinganditsapplicationsinai",
@@ -632,10 +541,6 @@
             },
             {
                 "name": "Machine Learning I - Theoretical Foundations",
-                "section": "specialization",
-                "specialization_ids": [
-                    3
-                ],
                 "id": 690865983782260026,
                 "role": {
                     "name": "machinelearningi-theoreticalfoundations",
@@ -649,10 +554,6 @@
         "courses": [
             {
                 "name": "Quantitative Aspects of Distributed Systems",
-                "section": "specialization",
-                "specialization_ids": [
-                    5
-                ],
                 "id": 606288668198562142,
                 "role": {
                     "name": "quantitativeaspectsofdistributedsystems",
@@ -662,10 +563,6 @@
             },
             {
                 "name": "Decentralized Systems",
-                "section": "specialization",
-                "specialization_ids": [
-                    5
-                ],
                 "id": 909084132153407309,
                 "role": {
                     "name": "decentralizedsystems",
@@ -675,10 +572,6 @@
             },
             {
                 "name": "Network Security",
-                "section": "specialization",
-                "specialization_ids": [
-                    5
-                ],
                 "id": 586571606326191556,
                 "role": {
                     "name": "networksecurity",
@@ -692,10 +585,6 @@
         "courses": [
             {
                 "name": "Computer Graphics",
-                "section": "specialization",
-                "specialization_ids": [
-                    6
-                ],
                 "id": 445851490231530432,
                 "role": {
                     "name": "computergraphics",
