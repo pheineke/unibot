@@ -642,37 +642,6 @@
                     "id": 976198208141754652,
                     "emoji": "\ud83e\udd51"
                 }
-            },
-            {
-                "name": "3D Computer Vision",
-                "id": 1429792896214896761,
-                "role": {
-                    "name": "3dcv",
-                    "id": 1429846883093844070,
-                    "color": "#206694",
-                    "emoji": "\ud83e\udd6c"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": [
-                    3
-                ]
-            },
-            {
-                "name": "Engineering with Generative AI",
-                "id": 1429789841889165352,
-                "role": {
-                    "name": "ewgai",
-                    "id": 1429846769038262272,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf46"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": [
-                    3
-                ],
-                "description": "Engineering with Generative AI"
             }
         ]
     },
@@ -733,51 +702,6 @@
                     "id": 519127779399905359,
                     "emoji": "\ud83e\uded1"
                 }
-            },
-            {
-                "name": "Computational Geometry",
-                "id": 1267989044713881621,
-                "role": {
-                    "id": 1493214033225060433,
-                    "name": "compgeom",
-                    "color": "#206694",
-                    "emoji": "\ud83e\udd6d"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": [
-                    6
-                ]
-            },
-            {
-                "name": "Human Computer Interaction",
-                "id": 1293583225133994024,
-                "role": {
-                    "name": "hci",
-                    "id": 1293582335966711808,
-                    "color": "#206694",
-                    "emoji": "\ud83e\uded0"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": [
-                    6
-                ]
-            },
-            {
-                "name": "Data Visualization",
-                "id": 1293583636091899945,
-                "role": {
-                    "name": "datavis",
-                    "id": 1293583710536601600,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf36"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": [
-                    6
-                ]
             }
         ]
     }
