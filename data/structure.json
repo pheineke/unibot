@@ -98,7 +98,7 @@
         },
         "courses": [
             {
-                "name": "3dma",
+                "name": "3D-Modellierung und Animation",
                 "id": 1493164690975756328,
                 "role": {
                     "name": "3dma",
@@ -111,7 +111,8 @@
                     "eit"
                 ],
                 "section": "specialization",
-                "specialization_ids": []
+                "specialization_ids": [],
+                "module": "EIT-DEK-922-M-4"
             },
             {
                 "name": "Software Development Project",
@@ -233,7 +234,7 @@
                 "description": "Infos zur Klausur:\nhttps://hedge.fachschaft.informatik.uni-kl.de/SIlwKeUSQ8SkYykZlqopBw\n\nHowToDiRa(ReSy) von Pascal, und Marvin: https://docs.google.com/presentation/d/1DOxE2vTdQa5fnR3h5yynauXXd4qKoVydNHAjnJBOy9M/edit#slide=id.g8f2d2bd599_0_12"
             },
             {
-                "name": "Micro electronics for Nichtvertiefer",
+                "name": "Fundamentals of Microelectronics",
                 "id": 1493164142369177671,
                 "role": {
                     "name": "minv",
@@ -242,7 +243,8 @@
                     "emoji": "\ud83c\udf52"
                 },
                 "section": "specialization",
-                "specialization_ids": []
+                "specialization_ids": [],
+                "module": "EIT-EMS-708-M-4"
             }
         ],
         "start": "01-04"
