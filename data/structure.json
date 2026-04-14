@@ -43,31 +43,31 @@
         "specialization": [
             {
                 "id": 0,
-                "name": "algorithms-and-deduction"
+                "name": "Algorithms and Deduction"
             },
             {
                 "id": 1,
-                "name": "embedded-systems-and-robotics"
+                "name": "Embedded Systems and Robotics"
             },
             {
                 "id": 2,
-                "name": "information-systems"
+                "name": "Information Systems"
             },
             {
                 "id": 3,
-                "name": "intelligent-systems"
+                "name": "Intelligent Systems"
             },
             {
                 "id": 4,
-                "name": "software-engineering"
+                "name": "Software Engineering"
             },
             {
                 "id": 5,
-                "name": "distributed-and-networked-systems"
+                "name": "Distributed and Networked Systems"
             },
             {
                 "id": 6,
-                "name": "visualization-and-scientific-computing"
+                "name": "Visualization and Scientific Computing"
             }
         ],
         "supplement": [
@@ -114,7 +114,7 @@
                 "specialization_ids": []
             },
             {
-                "name": "s-e-p",
+                "name": "Software Development Project",
                 "id": 1222959189773647973,
                 "role": {
                     "name": "sep",
@@ -127,7 +127,7 @@
                 "module": "INF-02-20-M-2"
             },
             {
-                "name": "algodat",
+                "name": "Algorithms and Data Structures",
                 "id": 1100427548413931571,
                 "role": {
                     "name": "algodat",
@@ -141,7 +141,7 @@
                 "description": "Ich kam, sah und weinte"
             },
             {
-                "name": "kss",
+                "name": "Mathematics for Computer Science: Combinatorics, Stochastics, and Statistics",
                 "id": 1229812364677873754,
                 "role": {
                     "name": "mathekss",
@@ -167,7 +167,7 @@
                 "section": "supplement"
             },
             {
-                "name": "insy",
+                "name": "Information Systems",
                 "id": 1230786397015773254,
                 "role": {
                     "name": "insy",
@@ -180,7 +180,7 @@
                 "module": "INF-00-12-M-2"
             },
             {
-                "name": "fsub",
+                "name": "Formal Languages and Computability",
                 "id": 1222983963228901586,
                 "role": {
                     "name": "fsub",
@@ -193,7 +193,7 @@
                 "module": "INF-02-04-M-2"
             },
             {
-                "name": "progpra",
+                "name": "Programming and Modeling",
                 "id": 1242125052317663364,
                 "role": {
                     "name": "mosy",
@@ -206,7 +206,7 @@
                 "section": "section-0"
             },
             {
-                "name": "kosy",
+                "name": "Communication Systems",
                 "id": 1100757442893197372,
                 "role": {
                     "name": "kosy",
@@ -219,7 +219,7 @@
                 "section": "section-2"
             },
             {
-                "name": "dira",
+                "name": "Digital Systems and Computer Architecture",
                 "id": 1103669873277681724,
                 "role": {
                     "name": "dira",
@@ -233,7 +233,7 @@
                 "description": "Infos zur Klausur:\nhttps://hedge.fachschaft.informatik.uni-kl.de/SIlwKeUSQ8SkYykZlqopBw\n\nHowToDiRa(ReSy) von Pascal, und Marvin: https://docs.google.com/presentation/d/1DOxE2vTdQa5fnR3h5yynauXXd4qKoVydNHAjnJBOy9M/edit#slide=id.g8f2d2bd599_0_12"
             },
             {
-                "name": "minv",
+                "name": "Micro electronics for Nichtvertiefer",
                 "id": 1493164142369177671,
                 "role": {
                     "name": "minv",
@@ -254,7 +254,7 @@
         },
         "courses": [
             {
-                "name": "logik",
+                "name": "Logic and Semantics of Programming Languages",
                 "id": 1164581984782266420,
                 "role": {
                     "name": "logik",
@@ -268,7 +268,7 @@
                 "description": "Klausur Tag: 11.02.2026 Uhrzeit: TBA Raum: TBA"
             },
             {
-                "name": "3dcv",
+                "name": "3D Computer Vision",
                 "id": 1429792896214896761,
                 "role": {
                     "name": "3dcv",
@@ -281,7 +281,7 @@
                 "specialization_ids": []
             },
             {
-                "name": "ki",
+                "name": "Artificial Intelligence",
                 "id": 1293581996706103336,
                 "role": {
                     "name": "ki",
@@ -294,7 +294,7 @@
                 "section": "section-2"
             },
             {
-                "name": "ewgai",
+                "name": "Engineering with Generative AI",
                 "id": 1429789841889165352,
                 "role": {
                     "name": "ewgai",
@@ -308,7 +308,7 @@
                 "description": "Engineering with Generative AI"
             },
             {
-                "name": "scicomp",
+                "name": "Scientific Computing",
                 "id": 1267988125016264859,
                 "role": {
                     "name": "scicomp",
@@ -321,7 +321,7 @@
                 "section": "section-2"
             },
             {
-                "name": "comgeom",
+                "name": "Computational Geometry",
                 "id": 1267989044713881621,
                 "role": {
                     "id": 1493214033225060433,
@@ -334,7 +334,7 @@
                 "specialization_ids": []
             },
             {
-                "name": "v-n-p",
+                "name": "Distributed and Concurrent Systems",
                 "id": 1165723572757602324,
                 "role": {
                     "emoji": "\ud83c\udf53"
@@ -345,7 +345,7 @@
                 "description": "Klausur Tag: 04.03.2024 Uhrzeit: 8:15 Raum: TBA (stand 07.02.2024)"
             },
             {
-                "name": "hci",
+                "name": "Human Computer Interaction",
                 "id": 1293583225133994024,
                 "role": {
                     "name": "hci",
@@ -358,7 +358,7 @@
                 "specialization_ids": []
             },
             {
-                "name": "datawiz",
+                "name": "Data Visualization",
                 "id": 1293583636091899945,
                 "role": {
                     "name": "datavis",
@@ -371,7 +371,7 @@
                 "specialization_ids": []
             },
             {
-                "name": "rosy",
+                "name": "Computer Organization and System Software",
                 "id": 1164581795170361476,
                 "role": {
                     "name": "rosy",
@@ -385,7 +385,7 @@
                 "description": "Klausur Tag: 26.03.2024 Uhrzeit: 8:30 \nRaum: H\u00f6rsaal 46-210:     Matrikelnummer < 423930\n             H\u00f6rsaal 46-215:     Matrikelnummer > 423930"
             },
             {
-                "name": "netsec",
+                "name": "Secure Systems",
                 "id": 1348657198015709285,
                 "role": {
                     "name": "netsec",
@@ -398,7 +398,7 @@
                 "section": "section-2"
             },
             {
-                "name": "infges",
+                "name": "Computer Science and Society",
                 "id": 1166333839652692070,
                 "role": {
                     "name": "infges",
@@ -412,7 +412,7 @@
                 "description": "Zweig: zweig@cs.uni-kl.de"
             },
             {
-                "name": "mathe",
+                "name": "Mathematics for Computer Science: Algebraic Structures",
                 "id": 1052258535167229952,
                 "role": {
                     "name": "mathe",
@@ -426,7 +426,7 @@
                 "description": "KSS: https://agag-jboehm.math.rptu.de/~boehm/lehre/24_MfI_KSS/"
             },
             {
-                "name": "gdp",
+                "name": "Concepts of Programming",
                 "id": 1060227910734196736,
                 "role": {
                     "name": "gdp",
@@ -439,7 +439,7 @@
                 "section": "section-0"
             },
             {
-                "name": "mathematics-for-computer-science-analysis",
+                "name": "Mathematics for Computer Science: Analysis",
                 "id": 999999999999999999,
                 "role": {
                     "name": "analysis",
