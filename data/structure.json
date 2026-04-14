@@ -91,11 +91,7 @@
             }
         ]
     },
-    "summer": {
-        "category": {
-            "id": 1065377828402643044,
-            "name": "current-sem"
-        },
+    "Other Specializations": {
         "courses": [
             {
                 "name": "3D-Modellierung und Animation",
@@ -114,6 +110,89 @@
                 "specialization_ids": [],
                 "module": "EIT-DEK-922-M-4"
             },
+            {
+                "name": "Fundamentals of Microelectronics",
+                "id": 1493164142369177671,
+                "role": {
+                    "name": "minv",
+                    "id": 1493164035233812632,
+                    "color": "#206694",
+                    "emoji": "\ud83c\udf52"
+                },
+                "section": "specialization",
+                "specialization_ids": [],
+                "module": "EIT-EMS-708-M-4"
+            },
+            {
+                "name": "3D Computer Vision",
+                "id": 1429792896214896761,
+                "role": {
+                    "name": "3dcv",
+                    "id": 1429846883093844070,
+                    "color": "#206694",
+                    "emoji": "\ud83e\udd6c"
+                },
+                "links": [],
+                "section": "specialization",
+                "specialization_ids": []
+            },
+            {
+                "name": "Engineering with Generative AI",
+                "id": 1429789841889165352,
+                "role": {
+                    "name": "ewgai",
+                    "id": 1429846769038262272,
+                    "color": "#206694",
+                    "emoji": "\ud83c\udf46"
+                },
+                "links": [],
+                "section": "specialization",
+                "specialization_ids": [],
+                "description": "Engineering with Generative AI"
+            },
+            {
+                "name": "Computational Geometry",
+                "id": 1267989044713881621,
+                "role": {
+                    "id": 1493214033225060433,
+                    "name": "compgeom",
+                    "color": "#206694",
+                    "emoji": "\ud83e\udd6d"
+                },
+                "links": [],
+                "section": "specialization",
+                "specialization_ids": []
+            },
+            {
+                "name": "Human Computer Interaction",
+                "id": 1293583225133994024,
+                "role": {
+                    "name": "hci",
+                    "id": 1293582335966711808,
+                    "color": "#206694",
+                    "emoji": "\ud83e\uded0"
+                },
+                "links": [],
+                "section": "specialization",
+                "specialization_ids": []
+            },
+            {
+                "name": "Data Visualization",
+                "id": 1293583636091899945,
+                "role": {
+                    "name": "datavis",
+                    "id": 1293583710536601600,
+                    "color": "#206694",
+                    "emoji": "\ud83c\udf36"
+                },
+                "links": [],
+                "section": "specialization",
+                "specialization_ids": []
+            }
+        ]
+    },
+    "Software Development": {
+        "courses": [
             {
                 "name": "Software Development Project",
                 "id": 1222959189773647973,
@@ -142,6 +221,47 @@
                 "description": "Ich kam, sah und weinte"
             },
             {
+                "name": "Programming and Modeling",
+                "id": 1242125052317663364,
+                "role": {
+                    "name": "mosy",
+                    "id": 1105535264912326827,
+                    "color": "#206694",
+                    "emoji": "\ud83e\udd66"
+                },
+                "links": [],
+                "module": "INF-02-12-M-2",
+                "section": "section-0"
+            },
+            {
+                "name": "Distributed and Concurrent Systems",
+                "id": 1165723572757602324,
+                "role": {
+                    "emoji": "\ud83c\udf53"
+                },
+                "links": [],
+                "module": "INF-02-03-M-2",
+                "section": "section-0",
+                "description": "Klausur Tag: 04.03.2024 Uhrzeit: 8:15 Raum: TBA (stand 07.02.2024)"
+            },
+            {
+                "name": "Concepts of Programming",
+                "id": 1060227910734196736,
+                "role": {
+                    "name": "gdp",
+                    "id": 1129468797640790116,
+                    "color": "#206694",
+                    "emoji": "\ud83e\uded2"
+                },
+                "links": [],
+                "module": "INF-02-01-M-2",
+                "section": "section-0"
+            }
+        ]
+    },
+    "Theoretical Foundations": {
+        "courses": [
+            {
                 "name": "Mathematics for Computer Science: Combinatorics, Stochastics, and Statistics",
                 "id": 1229812364677873754,
                 "role": {
@@ -154,31 +274,6 @@
                 "section": "section-1",
                 "module": "MAT-02-12-M-1",
                 "description": "https://agag-jboehm.math.rptu.de/~boehm/lehre/24_MfI_KSS/"
-            },
-            {
-                "name": "web20",
-                "id": 1297637742401945672,
-                "role": {
-                    "name": "web20",
-                    "id": 1297636270205567130,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf3d"
-                },
-                "links": [],
-                "section": "supplement"
-            },
-            {
-                "name": "Information Systems",
-                "id": 1230786397015773254,
-                "role": {
-                    "name": "insy",
-                    "id": 1231689952153042995,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf45"
-                },
-                "links": [],
-                "section": "section-2",
-                "module": "INF-00-12-M-2"
             },
             {
                 "name": "Formal Languages and Computability",
@@ -194,17 +289,77 @@
                 "module": "INF-02-04-M-2"
             },
             {
-                "name": "Programming and Modeling",
-                "id": 1242125052317663364,
+                "name": "Logic and Semantics of Programming Languages",
+                "id": 1164581984782266420,
                 "role": {
-                    "name": "mosy",
-                    "id": 1105535264912326827,
+                    "name": "logik",
+                    "id": 1165724393268318299,
                     "color": "#206694",
-                    "emoji": "\ud83e\udd66"
+                    "emoji": "\ud83c\udf4a"
                 },
                 "links": [],
-                "module": "INF-02-12-M-2",
-                "section": "section-0"
+                "module": "INF-02-05-M-2",
+                "section": "section-1",
+                "description": "Klausur Tag: 11.02.2026 Uhrzeit: TBA Raum: TBA"
+            },
+            {
+                "name": "Mathematics for Computer Science: Algebraic Structures",
+                "id": 1052258535167229952,
+                "role": {
+                    "name": "mathe",
+                    "id": 1129469008354218094,
+                    "color": "#206694",
+                    "emoji": "\ud83c\udf4c"
+                },
+                "links": [],
+                "module": "MAT-02-11-M-1",
+                "section": "section-1",
+                "description": "KSS: https://agag-jboehm.math.rptu.de/~boehm/lehre/24_MfI_KSS/"
+            },
+            {
+                "name": "Mathematics for Computer Science: Analysis",
+                "id": 999999999999999999,
+                "role": {
+                    "name": "analysis",
+                    "id": 999999999999999998,
+                    "emoji": "\ud83e\uded1"
+                },
+                "links": [],
+                "module": "MAT-02-13-M-1",
+                "section": "section-1"
+            }
+        ]
+    },
+    "Supplement": {
+        "courses": [
+            {
+                "name": "web20",
+                "id": 1297637742401945672,
+                "role": {
+                    "name": "web20",
+                    "id": 1297636270205567130,
+                    "color": "#206694",
+                    "emoji": "\ud83c\udf3d"
+                },
+                "links": [],
+                "section": "supplement"
+            }
+        ]
+    },
+    "Computer Science Systems": {
+        "courses": [
+            {
+                "name": "Information Systems",
+                "id": 1230786397015773254,
+                "role": {
+                    "name": "insy",
+                    "id": 1231689952153042995,
+                    "color": "#206694",
+                    "emoji": "\ud83c\udf45"
+                },
+                "links": [],
+                "section": "section-2",
+                "module": "INF-00-12-M-2"
             },
             {
                 "name": "Communication Systems",
@@ -234,55 +389,6 @@
                 "description": "Infos zur Klausur:\nhttps://hedge.fachschaft.informatik.uni-kl.de/SIlwKeUSQ8SkYykZlqopBw\n\nHowToDiRa(ReSy) von Pascal, und Marvin: https://docs.google.com/presentation/d/1DOxE2vTdQa5fnR3h5yynauXXd4qKoVydNHAjnJBOy9M/edit#slide=id.g8f2d2bd599_0_12"
             },
             {
-                "name": "Fundamentals of Microelectronics",
-                "id": 1493164142369177671,
-                "role": {
-                    "name": "minv",
-                    "id": 1493164035233812632,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf52"
-                },
-                "section": "specialization",
-                "specialization_ids": [],
-                "module": "EIT-EMS-708-M-4"
-            }
-        ],
-        "start": "01-04"
-    },
-    "winter": {
-        "category": {
-            "id": 1105534816658669669,
-            "name": "noncurrent-sem"
-        },
-        "courses": [
-            {
-                "name": "Logic and Semantics of Programming Languages",
-                "id": 1164581984782266420,
-                "role": {
-                    "name": "logik",
-                    "id": 1165724393268318299,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf4a"
-                },
-                "links": [],
-                "module": "INF-02-05-M-2",
-                "section": "section-1",
-                "description": "Klausur Tag: 11.02.2026 Uhrzeit: TBA Raum: TBA"
-            },
-            {
-                "name": "3D Computer Vision",
-                "id": 1429792896214896761,
-                "role": {
-                    "name": "3dcv",
-                    "id": 1429846883093844070,
-                    "color": "#206694",
-                    "emoji": "\ud83e\udd6c"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": []
-            },
-            {
                 "name": "Artificial Intelligence",
                 "id": 1293581996706103336,
                 "role": {
@@ -296,20 +402,6 @@
                 "section": "section-2"
             },
             {
-                "name": "Engineering with Generative AI",
-                "id": 1429789841889165352,
-                "role": {
-                    "name": "ewgai",
-                    "id": 1429846769038262272,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf46"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": [],
-                "description": "Engineering with Generative AI"
-            },
-            {
                 "name": "Scientific Computing",
                 "id": 1267988125016264859,
                 "role": {
@@ -321,56 +413,6 @@
                 "links": [],
                 "module": "INF-02-07-M-2",
                 "section": "section-2"
-            },
-            {
-                "name": "Computational Geometry",
-                "id": 1267989044713881621,
-                "role": {
-                    "id": 1493214033225060433,
-                    "name": "compgeom",
-                    "color": "#206694",
-                    "emoji": "\ud83e\udd6d"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": []
-            },
-            {
-                "name": "Distributed and Concurrent Systems",
-                "id": 1165723572757602324,
-                "role": {
-                    "emoji": "\ud83c\udf53"
-                },
-                "links": [],
-                "module": "INF-02-03-M-2",
-                "section": "section-0",
-                "description": "Klausur Tag: 04.03.2024 Uhrzeit: 8:15 Raum: TBA (stand 07.02.2024)"
-            },
-            {
-                "name": "Human Computer Interaction",
-                "id": 1293583225133994024,
-                "role": {
-                    "name": "hci",
-                    "id": 1293582335966711808,
-                    "color": "#206694",
-                    "emoji": "\ud83e\uded0"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": []
-            },
-            {
-                "name": "Data Visualization",
-                "id": 1293583636091899945,
-                "role": {
-                    "name": "datavis",
-                    "id": 1293583710536601600,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf36"
-                },
-                "links": [],
-                "section": "specialization",
-                "specialization_ids": []
             },
             {
                 "name": "Computer Organization and System Software",
@@ -398,7 +440,11 @@
                 "links": [],
                 "module": "INF-02-15-M-2",
                 "section": "section-2"
-            },
+            }
+        ]
+    },
+    "Interdisciplinary Qualification": {
+        "courses": [
             {
                 "name": "Computer Science and Society",
                 "id": 1166333839652692070,
@@ -412,58 +458,10 @@
                 "module": "INF-02-22-M-2",
                 "section": "section-3",
                 "description": "Zweig: zweig@cs.uni-kl.de"
-            },
-            {
-                "name": "Mathematics for Computer Science: Algebraic Structures",
-                "id": 1052258535167229952,
-                "role": {
-                    "name": "mathe",
-                    "id": 1129469008354218094,
-                    "color": "#206694",
-                    "emoji": "\ud83c\udf4c"
-                },
-                "links": [],
-                "module": "MAT-02-11-M-1",
-                "section": "section-1",
-                "description": "KSS: https://agag-jboehm.math.rptu.de/~boehm/lehre/24_MfI_KSS/"
-            },
-            {
-                "name": "Concepts of Programming",
-                "id": 1060227910734196736,
-                "role": {
-                    "name": "gdp",
-                    "id": 1129468797640790116,
-                    "color": "#206694",
-                    "emoji": "\ud83e\uded2"
-                },
-                "links": [],
-                "module": "INF-02-01-M-2",
-                "section": "section-0"
-            },
-            {
-                "name": "Mathematics for Computer Science: Analysis",
-                "id": 999999999999999999,
-                "role": {
-                    "name": "analysis",
-                    "id": 999999999999999998,
-                    "emoji": "\ud83e\uded1"
-                },
-                "links": [],
-                "module": "MAT-02-13-M-1",
-                "section": "section-1"
             }
-        ],
-        "start": "01-10"
+        ]
     },
-    "various": {
-        "name": "abschlussarbeiten",
-        "id": 1348669382800314408,
-        "role": {
-            "name": "abschlussarbeiten",
-            "id": 1348669418795696219
-        },
-        "links": [],
-        "section": "thesis",
+    "Software Engineering": {
         "courses": [
             {
                 "name": "Foundations of Software Engineering",
@@ -529,7 +527,11 @@
                     "id": 606517757511115281,
                     "emoji": "\ud83c\udf4c"
                 }
-            },
+            }
+        ]
+    },
+    "Algorithms and Deduction": {
+        "courses": [
             {
                 "name": "Algorithms on Strings",
                 "section": "specialization",
@@ -607,7 +609,11 @@
                     "id": 353516961904671879,
                     "emoji": "\ud83c\udf52"
                 }
-            },
+            }
+        ]
+    },
+    "Embedded Systems and Robotics": {
+        "courses": [
             {
                 "name": "Fundamentals of Robotics",
                 "section": "specialization",
@@ -659,7 +665,11 @@
                     "id": 447321509909991731,
                     "emoji": "\ud83e\udd65"
                 }
-            },
+            }
+        ]
+    },
+    "Information Systems": {
+        "courses": [
             {
                 "name": "Database Systems",
                 "section": "specialization",
@@ -672,7 +682,11 @@
                     "id": 994309327360843734,
                     "emoji": "\ud83e\udd5d"
                 }
-            },
+            }
+        ]
+    },
+    "Intelligent Systems": {
+        "courses": [
             {
                 "name": "3D Computer Vision",
                 "section": "specialization",
@@ -724,7 +738,11 @@
                     "id": 839122876916046551,
                     "emoji": "\ud83e\udd66"
                 }
-            },
+            }
+        ]
+    },
+    "Distributed and Networked Systems": {
+        "courses": [
             {
                 "name": "Quantitative Aspects of Distributed Systems",
                 "section": "specialization",
@@ -763,7 +781,11 @@
                     "id": 283194315374342420,
                     "emoji": "\ud83c\udf36"
                 }
-            },
+            }
+        ]
+    },
+    "Visualization and Scientific Computing": {
+        "courses": [
             {
                 "name": "Computer Graphics",
                 "section": "specialization",
