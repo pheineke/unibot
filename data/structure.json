@@ -104,7 +104,7 @@
                     "name": "3dma",
                     "id": 1493212877547372695,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83e\uddc4"
                 },
                 "links": [],
                 "tags": [
@@ -120,7 +120,7 @@
                     "name": "sep",
                     "id": 1229775761129341069,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83e\udd51"
                 },
                 "links": [],
                 "section": "section-0",
@@ -133,7 +133,7 @@
                     "name": "algodat",
                     "id": 1100427614402916352,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83e\udd55"
                 },
                 "links": [],
                 "section": "section-0",
@@ -147,7 +147,7 @@
                     "name": "mathekss",
                     "id": 1229812239201075351,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf51"
                 },
                 "links": [],
                 "section": "section-1",
@@ -161,7 +161,7 @@
                     "name": "web20",
                     "id": 1297636270205567130,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf3d"
                 },
                 "links": [],
                 "section": "supplement"
@@ -173,7 +173,7 @@
                     "name": "insy",
                     "id": 1231689952153042995,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf45"
                 },
                 "links": [],
                 "section": "section-2",
@@ -186,7 +186,7 @@
                     "name": "fsub",
                     "id": 1229776969873358882,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf4b"
                 },
                 "links": [],
                 "section": "section-1",
@@ -199,7 +199,7 @@
                     "name": "mosy",
                     "id": 1105535264912326827,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83e\udd66"
                 },
                 "links": [],
                 "module": "INF-02-12-M-2",
@@ -212,7 +212,7 @@
                     "name": "kosy",
                     "id": 1100757487763865692,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf4d"
                 },
                 "links": [],
                 "module": "INF-02-13-M-2",
@@ -225,7 +225,7 @@
                     "name": "dira",
                     "id": 1103669975669035128,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf47"
                 },
                 "links": [],
                 "module": "INF-02-09-M-2",
@@ -239,7 +239,7 @@
                     "name": "minv",
                     "id": 1493164035233812632,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf52"
                 },
                 "section": "specialization",
                 "specialization_ids": []
@@ -260,7 +260,7 @@
                     "name": "logik",
                     "id": 1165724393268318299,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf4a"
                 },
                 "links": [],
                 "module": "INF-02-05-M-2",
@@ -274,7 +274,7 @@
                     "name": "3dcv",
                     "id": 1429846883093844070,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83e\udd6c"
                 },
                 "links": [],
                 "section": "specialization",
@@ -287,7 +287,7 @@
                     "name": "ki",
                     "id": 1293582108320862323,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf49"
                 },
                 "links": [],
                 "module": "INF-02-17-M-2",
@@ -300,7 +300,7 @@
                     "name": "ewgai",
                     "id": 1429846769038262272,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf46"
                 },
                 "links": [],
                 "section": "specialization",
@@ -314,7 +314,7 @@
                     "name": "scicomp",
                     "id": 1267988167857016842,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83e\uddc5"
                 },
                 "links": [],
                 "module": "INF-02-07-M-2",
@@ -327,7 +327,7 @@
                     "id": 1493214033225060433,
                     "name": "compgeom",
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83e\udd6d"
                 },
                 "links": [],
                 "section": "specialization",
@@ -337,7 +337,7 @@
                 "name": "v-n-p",
                 "id": 1165723572757602324,
                 "role": {
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf53"
                 },
                 "links": [],
                 "module": "INF-02-03-M-2",
@@ -351,7 +351,7 @@
                     "name": "hci",
                     "id": 1293582335966711808,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83e\uded0"
                 },
                 "links": [],
                 "section": "specialization",
@@ -364,7 +364,7 @@
                     "name": "datavis",
                     "id": 1293583710536601600,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf36"
                 },
                 "links": [],
                 "section": "specialization",
@@ -377,7 +377,7 @@
                     "name": "rosy",
                     "id": 1165724104792477787,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf60"
                 },
                 "links": [],
                 "module": "INF-02-10-M-2",
@@ -391,7 +391,7 @@
                     "name": "netsec",
                     "id": 1348671568343203851,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83e\udd5d"
                 },
                 "links": [],
                 "module": "INF-02-15-M-2",
@@ -404,7 +404,7 @@
                     "name": "infges",
                     "id": 1165724484188258385,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf48"
                 },
                 "links": [],
                 "module": "INF-02-22-M-2",
@@ -418,7 +418,7 @@
                     "name": "mathe",
                     "id": 1129469008354218094,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83c\udf4c"
                 },
                 "links": [],
                 "module": "MAT-02-11-M-1",
@@ -432,7 +432,7 @@
                     "name": "gdp",
                     "id": 1129468797640790116,
                     "color": "#206694",
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83e\uded2"
                 },
                 "links": [],
                 "module": "INF-02-01-M-2",
@@ -444,7 +444,7 @@
                 "role": {
                     "name": "analysis",
                     "id": 999999999999999998,
-                    "emoji": "\ud83d\udcda"
+                    "emoji": "\ud83e\uded1"
                 },
                 "links": [],
                 "module": "MAT-02-13-M-1",

@@ -166,10 +166,17 @@ class ReactionRoles(commands.Cog):
             "section-1",
             "section-2",
             "section-3",
-            "specialization",
+        ]
+        
+        spec_defs = data.get("section", {}).get("specialization", [])
+        for s in spec_defs:
+            SECTION_ORDER.append(f"specialization_{s['id']}")
+            
+        SECTION_ORDER.extend([
+            "specialization_other",
             "supplement",
             "thesis"
-        ]
+        ])
         
         section_groups = {sec: [] for sec in SECTION_ORDER}
         
@@ -182,63 +189,58 @@ class ReactionRoles(commands.Cog):
             if c.get("disabled_rr"): continue # skip disabled
                 
             sec = c.get("section", "unknown")
-            if sec not in section_groups:
-                section_groups[sec] = []
-            section_groups[sec].append(c)
+            if sec == "specialization":
+                sids = c.get("specialization_ids", [])
+                if not sids:
+                    section_groups["specialization_other"].append(c)
+                else:
+                    for sid in sids:
+                        target_sec = f"specialization_{sid}"
+                        if target_sec not in section_groups:
+                            section_groups[target_sec] = []
+                        section_groups[target_sec].append(c)
+            else:
+                if sec not in section_groups:
+                    section_groups[sec] = []
+                section_groups[sec].append(c)
             
         # Remove empty sections
         return {k: v for k, v in section_groups.items() if v}
 
     def _build_message_content(self, data, sec, sec_courses):
         sec_name = sec
-        if "section" in data and sec in data["section"]:
-            eng_name = next((n["name"] for n in data["section"][sec] if n.get("lang") == "eng"), None)
-            if eng_name: sec_name = eng_name
-                
-        lines = [f"### {sec_name.replace('-', ' ').upper()}"]
-        
-        if sec == "specialization" and "specialization" in data.get("section", {}):
-            spec_defs = {s["id"]: s["name"] for s in data["section"]["specialization"]}
-            
-            # Group courses by specialization
-            spec_groups = {}
-            unmatched = []
-            
+        if str(sec).startswith("specialization_"):
+            sid_str = sec.split("_")[1]
+            if sid_str == "other":
+                sec_name = "Other Specializations"
+            else:
+                try:
+                    sid = int(sid_str)
+                    spec_list = data.get("section", {}).get("specialization", [])
+                    sec_name = next((s["name"] for s in spec_list if s["id"] == sid), f"Category {sid}")
+                except:
+                    pass
+            sec_name = sec_name.replace('-', ' ').title()
+            # For specializations, we return the title needed and the course lines separately
+            lines = [f"Select your courses for **{sec_name}**:"]
             for c in sec_courses:
-                sids = c.get("specialization_ids", [])
-                if not sids:
-                    unmatched.append(c)
-                else:
-                    for sid in sids:
-                        spec_groups.setdefault(sid, []).append(c)
-            
-            # Write out each specialization subgroup
-            for sid, subset in sorted(spec_groups.items()):
-                s_name = spec_defs.get(sid, f"Category {sid}")
-                lines.append(f"\n**{s_name.replace('-', ' ').title()}**")
-                # Ensure no duplicates per sub-header
-                seen_c = set()
-                for c in subset:
-                    if c["id"] in seen_c: continue
-                    seen_c.add(c["id"])
-                    
-                    emoji = c.get("role", {}).get("emoji", "❓")
-                    mod = f" ({c['module']})" if "module" in c else ""
-                    lines.append(f"{emoji} {c.get('name', 'Unknown')} - <#{c['id']}>")
-                    
-            if unmatched:
-                lines.append("\n**Other Specializations**")
-                for c in unmatched:
-                    emoji = c.get("role", {}).get("emoji", "❓")
-                    mod = f" ({c['module']})" if "module" in c else ""
-                    lines.append(f"{emoji} {c.get('name', 'Unknown')} - <#{c['id']}>")
+                emoji = c.get("role", {}).get("emoji", "❓")
+                mod = f" ({c['module']})" if "module" in c else ""
+                lines.append(f"{emoji} {c.get('name', 'Unknown')} - <#{c['id']}>")
+            return sec_name, "\n".join(lines)
+
         else:
+            if "section" in data and sec in data["section"]:
+                eng_name = next((n["name"] for n in data["section"][sec] if n.get("lang") == "eng"), None)
+                if eng_name: sec_name = eng_name
+                    
+            lines = [f"### {sec_name.replace('-', ' ').upper()}"]
             for c in sec_courses:
                 emoji = c.get("role", {}).get("emoji", "❓")
                 mod = f" ({c['module']})" if "module" in c else ""
                 lines.append(f"{emoji} {c.get('name', 'Unknown')} - <#{c['id']}>")
                 
-        return "\n".join(lines)
+            return "\n".join(lines)
 
     @commands.group(name='rr', invoke_without_command=True)
     @commands.has_permissions(manage_roles=True)
@@ -299,7 +301,8 @@ class ReactionRoles(commands.Cog):
             if "reaction_channel" in data and "reaction_messages" in data:
                 old_chan = self.bot.get_channel(int(data["reaction_channel"]))
                 if old_chan:
-                    for msg_id in data["reaction_messages"].keys():
+                    for msg_id_raw in data["reaction_messages"].keys():
+                        msg_id = msg_id_raw.split("|")[0]
                         try:
                             old_msg = await old_chan.fetch_message(int(msg_id))
                             await old_msg.delete()
@@ -314,15 +317,31 @@ class ReactionRoles(commands.Cog):
                 if not sec_courses: continue
                 msg_content = self._build_message_content(data, sec, sec_courses)
                 
-                msg = await target_channel.send(msg_content)
-                data["reaction_messages"][str(msg.id)] = sec
-                self.save_data(data)
-                
-                for c in sec_courses:
-                    emoji = c.get("role", {}).get("emoji")
-                    if emoji:
-                        try: await msg.add_reaction(emoji)
-                        except: pass
+                if str(sec).startswith("specialization_"):
+                    topic_name, lines_content = msg_content
+                    parent_msg = await target_channel.send(f"**{topic_name}**")
+                    thread = await parent_msg.create_thread(name=topic_name, auto_archive_duration=10080)
+                    msg = await thread.send(lines_content)
+                    
+                    data["reaction_messages"][str(parent_msg.id)] = f"{sec}_parent"
+                    data["reaction_messages"][f"{msg.id}|{thread.id}"] = sec
+                    self.save_data(data)
+                    
+                    for c in sec_courses:
+                        emoji = c.get("role", {}).get("emoji")
+                        if emoji:
+                            try: await msg.add_reaction(emoji)
+                            except: pass
+                else:
+                    msg = await target_channel.send(msg_content)
+                    data["reaction_messages"][str(msg.id)] = sec
+                    self.save_data(data)
+                    
+                    for c in sec_courses:
+                        emoji = c.get("role", {}).get("emoji")
+                        if emoji:
+                            try: await msg.add_reaction(emoji)
+                            except: pass
             
             await ctx.send(f"✅ Reaction roles setup complete in {target_channel.mention}!")
         except Exception as e:
@@ -356,36 +375,84 @@ class ReactionRoles(commands.Cog):
                 if not sec_courses: continue
                 msg_content = self._build_message_content(data, sec, sec_courses)
                 
-                if sec in sec_to_msg:
-                    # Message exists, lets edit!
-                    try:
-                        msg_id = int(sec_to_msg[sec])
-                        msg = await target_channel.fetch_message(msg_id)
-                        await msg.edit(content=msg_content)
-                        new_reaction_messages[str(msg.id)] = sec
-                        
-                        # Add new reactions, leave old ones
+                if str(sec).startswith("specialization_"):
+                    topic_name, lines_content = msg_content
+                    
+                    if sec in sec_to_msg:
+                        try:
+                            val = sec_to_msg[sec]
+                            msg_id, thread_id = val.split("|")
+                            thread = ctx.guild.get_thread(int(thread_id))
+                            if not thread: raise discord.NotFound(None, "Thread deleted")
+                                
+                            msg = await thread.fetch_message(int(msg_id))
+                            await msg.edit(content=lines_content)
+                            new_reaction_messages[val] = sec
+                            
+                            # Keep parent message association
+                            for k, v in data.get("reaction_messages", {}).items():
+                                if v == f"{sec}_parent":
+                                    new_reaction_messages[k] = v
+                                    
+                            for c in sec_courses:
+                                emoji = c.get("role", {}).get("emoji")
+                                if emoji:
+                                    try: await msg.add_reaction(emoji)
+                                    except: pass
+                        except Exception:
+                            # Thread or msg deleted, post new
+                            parent_msg = await target_channel.send(f"**{topic_name}**")
+                            thread = await parent_msg.create_thread(name=topic_name, auto_archive_duration=10080)
+                            msg = await thread.send(lines_content)
+                            new_reaction_messages[str(parent_msg.id)] = f"{sec}_parent"
+                            new_reaction_messages[f"{msg.id}|{thread.id}"] = sec
+                            for c in sec_courses:
+                                if c.get("role", {}).get("emoji"):
+                                    try: await msg.add_reaction(c["role"]["emoji"])
+                                    except: pass
+                    else:
+                        # Brand new section!
+                        parent_msg = await target_channel.send(f"**{topic_name}**")
+                        thread = await parent_msg.create_thread(name=topic_name, auto_archive_duration=10080)
+                        msg = await thread.send(lines_content)
+                        new_reaction_messages[str(parent_msg.id)] = f"{sec}_parent"
+                        new_reaction_messages[f"{msg.id}|{thread.id}"] = sec
                         for c in sec_courses:
-                            emoji = c.get("role", {}).get("emoji")
-                            if emoji:
-                                try: await msg.add_reaction(emoji)
+                            if c.get("role", {}).get("emoji"):
+                                try: await msg.add_reaction(c["role"]["emoji"])
                                 except: pass
-                    except discord.NotFound:
-                        # Message deleted manually, post a new one
+                                
+                else:
+                    if sec in sec_to_msg:
+                        # Message exists, lets edit!
+                        try:
+                            msg_id = int(sec_to_msg[sec])
+                            msg = await target_channel.fetch_message(msg_id)
+                            await msg.edit(content=msg_content)
+                            new_reaction_messages[str(msg.id)] = sec
+                            
+                            # Add new reactions, leave old ones
+                            for c in sec_courses:
+                                emoji = c.get("role", {}).get("emoji")
+                                if emoji:
+                                    try: await msg.add_reaction(emoji)
+                                    except: pass
+                        except discord.NotFound:
+                            # Message deleted manually, post a new one
+                            msg = await target_channel.send(msg_content)
+                            new_reaction_messages[str(msg.id)] = sec
+                            for c in sec_courses:
+                                if c.get("role", {}).get("emoji"):
+                                    try: await msg.add_reaction(c["role"]["emoji"])
+                                    except: pass
+                    else:
+                        # Brand new section!
                         msg = await target_channel.send(msg_content)
                         new_reaction_messages[str(msg.id)] = sec
                         for c in sec_courses:
                             if c.get("role", {}).get("emoji"):
                                 try: await msg.add_reaction(c["role"]["emoji"])
                                 except: pass
-                else:
-                    # Brand new section!
-                    msg = await target_channel.send(msg_content)
-                    new_reaction_messages[str(msg.id)] = sec
-                    for c in sec_courses:
-                        if c.get("role", {}).get("emoji"):
-                            try: await msg.add_reaction(c["role"]["emoji"])
-                            except: pass
 
             data["reaction_messages"] = new_reaction_messages
             self.save_data(data)
@@ -471,14 +538,21 @@ class ReactionRoles(commands.Cog):
         data = self.get_data()
         reaction_messages = data.get("reaction_messages", {})
         
-        if str(payload.message_id) not in reaction_messages: return
-            
-        section = reaction_messages[str(payload.message_id)]
+        # Check against pure keys or keys formatted as msg_id|thread_id
+        section = None
+        target_msg_id = str(payload.message_id)
+        for k, v in reaction_messages.items():
+            if k == target_msg_id or k.startswith(f"{target_msg_id}|"):
+                section = v
+                break
+                
+        if not section: return
+        
         emoji_str = str(payload.emoji)
         courses = self.get_all_course_refs(data)
         
         role_id = next((c.get("role", {}).get("id") for c in courses 
-                       if c.get("section") == section 
+                       if (c.get("section") == section or (section.startswith("specialization_") and c.get("section") == "specialization"))
                        and c.get("role", {}).get("emoji") == emoji_str
                        and not c.get("disabled_rr")), None)
                        
