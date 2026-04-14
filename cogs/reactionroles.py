@@ -177,7 +177,7 @@ class ReactionRoles(commands.Cog):
     def _build_message_content(self, data, sec, sec_courses):
         sec_name = sec
         if "section" in data and sec in data["section"]:
-            eng_name = next((n["name"] for n in data["section"][sec] if n["lang"] == "eng"), None)
+            eng_name = next((n["name"] for n in data["section"][sec] if n.get("lang") == "eng"), None)
             if eng_name: sec_name = eng_name
                 
         lines = [f"### {sec_name.replace('-', ' ').upper()}"]
