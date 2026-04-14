@@ -4,11 +4,107 @@ import json
 import asyncio
 import datetime
 
+def get_current_semester():
+    now = datetime.datetime.now()
+    if 4 <= now.month <= 9:
+        return "summer", now.year
+    else:
+        if now.month <= 3:
+            return "winter", now.year - 1
+        else:
+            return "winter", now.year
+
+class SemesterSelect(discord.ui.Select):
+    def __init__(self, degree_type):
+        self.degree_type = degree_type
+        
+        current_season, current_year = get_current_semester()
+        options = []
+        y = current_year
+        s = current_season
+
+        # Generate the last 25 semesters backwards dynamically
+        for i in range(25):
+            label = f"SoSe {y}" if s == "summer" else f"WiSe {y}/{y+1-2000}"
+            val = f"{s}_{y}"
+            options.append(discord.SelectOption(label=label, description=f"Started in {label}", value=val))
+            
+            if s == "summer":
+                s = "winter"
+                y -= 1
+            else:
+                s = "summer"
+                
+        super().__init__(
+            placeholder=f"Select your {degree_type.title()} Start Semester",
+            min_values=1,
+            max_values=1,
+            options=options,
+            custom_id=f"semester_select_{degree_type}"
+        )
+
+    async def callback(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True)
+        
+        selected_val = self.values[0]
+        start_season, start_year_str = selected_val.split("_")
+        start_year = int(start_year_str)
+        
+        current_season, current_year = get_current_semester()
+        
+        def get_sem_id(season, year):
+            return year * 2 if season == "summer" else year * 2 + 1
+            
+        start_id = get_sem_id(start_season, start_year)
+        curr_id = get_sem_id(current_season, current_year)
+        
+        sem = (curr_id - start_id) + 1
+        if sem < 1:
+            sem = 1
+            
+        role_prefix = "b_sem" if self.degree_type == "bachelor" else "m_sem"
+        role_name = f"{role_prefix}{sem}"
+        
+        guild = interaction.guild
+        member = interaction.user
+        
+        role = discord.utils.get(guild.roles, name=role_name)
+        if not role:
+            try:
+                role = await guild.create_role(name=role_name, reason="Dynamic semester role")
+            except Exception as e:
+                await interaction.followup.send(f"❌ Failed to create role {role_name}: {e}", ephemeral=True)
+                return
+                
+        # Remove any existing semantic roles of this type
+        roles_to_remove = [r for r in member.roles if r.name.startswith(role_prefix) and r.name != role_name]
+        if roles_to_remove:
+            try:
+                await member.remove_roles(*roles_to_remove)
+            except:
+                pass
+                
+        try:
+            await member.add_roles(role)
+            await interaction.followup.send(f"✅ Your role has been updated to **{role_name}**!", ephemeral=True)
+        except Exception as e:
+            await interaction.followup.send(f"❌ Failed to assign role: {e}", ephemeral=True)
+
+class SemesterView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+        self.add_item(SemesterSelect("bachelor"))
+        self.add_item(SemesterSelect("master"))
+
 class ReactionRoles(commands.Cog):
     """Module for setting up interactive course/section reaction roles."""
     
     def __init__(self, bot):
         self.bot = bot
+
+    async def cog_load(self):
+        # Register the persistent view so it survives restarts
+        self.bot.add_view(SemesterView())
 
     def get_data(self):
         with open('data/structure.json', 'r') as f:
@@ -22,7 +118,7 @@ class ReactionRoles(commands.Cog):
         """Returns a list of all course dictionaries to modify them by ref"""
         courses = []
         for key, value in data.items():
-            if key == "section" or key.startswith("reaction") or key == "semester_roles":
+            if key == "section" or key.startswith("reaction") or key == "semester_roles" or key == "semester_config":
                 continue
             if isinstance(value, dict) and "courses" in value:
                 courses.extend(value["courses"])
@@ -34,71 +130,47 @@ class ReactionRoles(commands.Cog):
     @commands.has_permissions(manage_roles=True)
     async def rr_group(self, ctx):
         """Reaction Roles commands"""
-        await ctx.send("Usage:\n`!rr setup <#channel>` - Setup or update messages\n`!rr editemoji <course_name>` - Change emoji for a course\n`!rr semesters <#channel>` - Setup semester calculation roles")
+        await ctx.send("Usage:\n`!rr setup <#channel>` - Setup or update messages\n`!rr editemoji <course_name>` - Change emoji for a course\n`!rr semesters <#channel>` - Setup interactive dynamic semester dropdowns")
 
     @rr_group.command(name='semesters')
     @commands.has_permissions(manage_roles=True)
     async def rr_semesters(self, ctx, target_channel: discord.TextChannel):
         """
-        Builds the semester role selection messages.
+        Builds the interactive dynamic semester role selection dropdown menus.
         Usage: !rr semesters #choose-roles
         """
         data = self.get_data()
-        sem_data = data.get("semester_roles", {})
-        if not sem_data:
-            await ctx.send("No `semester_roles` configured in structure.json!")
-            return
-
-        # Clean old messages
-        old_b = sem_data.get("bachelor_message_id")
-        old_m = sem_data.get("master_message_id")
+        
+        # Clean old interactive message
+        sem_data = data.get("semester_config", {})
+        old_msg_id = sem_data.get("message_id")
         old_chan_id = sem_data.get("channel_id")
         
-        if old_chan_id:
+        if old_chan_id and old_msg_id:
             old_chan = self.bot.get_channel(int(old_chan_id))
             if old_chan:
-                for mid in [old_b, old_m]:
-                    if mid:
-                        try:
-                            msg = await old_chan.fetch_message(int(mid))
-                            await msg.delete()
-                        except:
-                            pass
+                try:
+                    msg = await old_chan.fetch_message(int(old_msg_id))
+                    await msg.delete()
+                except:
+                    pass
                             
-        # Post Bachelor message
-        b_lines = ["### BACHELOR START SEMESTER", "React below to set the semester you started your Bachelor:"]
-        b_options = sem_data.get("bachelor", {}).get("options", [])
-        for opt in b_options:
-            b_lines.append(f"{opt['emoji']} **{opt['label']}**")
-            
-        b_msg = await target_channel.send("\n".join(b_lines))
-        for opt in b_options:
-            try:
-                await b_msg.add_reaction(opt['emoji'])
-            except Exception:
-                pass
-                
-        # Post Master message 
-        m_lines = ["### MASTER START SEMESTER", "React below to set the semester you started your Master:"]
-        m_options = sem_data.get("master", {}).get("options", [])
-        for opt in m_options:
-            m_lines.append(f"{opt['emoji']} **{opt['label']}**")
-            
-        m_msg = await target_channel.send("\n".join(m_lines))
-        for opt in m_options:
-            try:
-                await m_msg.add_reaction(opt['emoji'])
-            except Exception:
-                pass
-                
+        embed = discord.Embed(
+            title="🎓 Choose your Starting Semester",
+            description="Select the semester you began your degree to automatically receive your current semester role (e.g. `b_sem8`).\nThe calculation automatically updates as time passes!",
+            color=0x3498db
+        )
+        
+        msg = await target_channel.send(embed=embed, view=SemesterView())
+        
         # Save to data
-        sem_data["channel_id"] = str(target_channel.id)
-        sem_data["bachelor_message_id"] = str(b_msg.id)
-        sem_data["master_message_id"] = str(m_msg.id)
-        data["semester_roles"] = sem_data
+        data["semester_config"] = {
+            "channel_id": str(target_channel.id),
+            "message_id": str(msg.id)
+        }
         self.save_data(data)
         
-        await ctx.send(f"✅ Semester roles setup complete in {target_channel.mention}!")
+        await ctx.send(f"✅ Dynamic dropdown UI deployed to {target_channel.mention}!")
 
     @rr_group.command(name='setup')
     @commands.has_permissions(manage_roles=True)
@@ -293,91 +365,9 @@ class ReactionRoles(commands.Cog):
             return
         await self.handle_reaction(payload, False)
 
-    async def handle_semester_reaction(self, payload, degree_type, is_add, data):
-        emoji_str = str(payload.emoji)
-        options = data.get("semester_roles", {}).get(degree_type, {}).get("options", [])
-        
-        selected_opt = None
-        for opt in options:
-            if opt["emoji"] == emoji_str:
-                selected_opt = opt
-                break
-                
-        if not selected_opt:
-            return
-            
-        now = datetime.datetime.now()
-        if 4 <= now.month <= 9:
-            current_season = "summer"
-            current_year = now.year
-        else:
-            current_season = "winter"
-            if now.month <= 3:
-                current_year = now.year - 1
-            else:
-                current_year = now.year
-                
-        def get_id(season, year):
-            return year * 2 if season == "summer" else year * 2 + 1
-            
-        start_id = get_id(selected_opt["season"], selected_opt["year"])
-        curr_id = get_id(current_season, current_year)
-        
-        sem = (curr_id - start_id) + 1
-        if sem < 1:
-            sem = 1
-            
-        role_prefix = "b_sem" if degree_type == "bachelor" else "m_sem"
-        role_name = f"{role_prefix}{sem}"
-        
-        guild = self.bot.get_guild(payload.guild_id)
-        member = guild.get_member(payload.user_id)
-        if not guild or not member:
-            return
-            
-        role = discord.utils.get(guild.roles, name=role_name)
-        
-        # If adding reaction, we might need to create the role and remove old semantic roles
-        if is_add:
-            if not role:
-                try:
-                    role = await guild.create_role(name=role_name, reason="Dynamic semester role")
-                except Exception as e:
-                    print(f"Failed to create role {role_name}: {e}")
-                    return
-                    
-            # Remove any already existing semester roles of this type
-            roles_to_remove = [r for r in member.roles if r.name.startswith(role_prefix) and r.name != role_name]
-            if roles_to_remove:
-                try:
-                    await member.remove_roles(*roles_to_remove)
-                except:
-                    pass
-                    
-            try:
-                await member.add_roles(role)
-            except Exception as e:
-                print(f"Failed to add dynamic role: {e}")
-        else:
-            # removing reaction
-            if role and role in member.roles:
-                try:
-                    await member.remove_roles(role)
-                except Exception as e:
-                    print(f"Failed to remove dynamic role: {e}")
-
     async def handle_reaction(self, payload, is_add):
         data = self.get_data()
         msg_id_str = str(payload.message_id)
-        
-        # Check if it's a semester role message
-        sem_data = data.get("semester_roles", {})
-        if msg_id_str == sem_data.get("bachelor_message_id"):
-            await self.handle_semester_reaction(payload, "bachelor", is_add, data)
-            return
-        elif msg_id_str == sem_data.get("master_message_id"):
-            await self.handle_semester_reaction(payload, "master", is_add, data)
-            return
         
         reaction_messages = data.get("reaction_messages", {})
         if msg_id_str not in reaction_messages:
