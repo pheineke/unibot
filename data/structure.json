@@ -461,6 +461,359 @@
             "id": 1348669418795696219
         },
         "links": [],
-        "section": "thesis"
+        "section": "thesis",
+        "courses": [
+            {
+                "name": "Foundations of Software Engineering",
+                "section": "specialization",
+                "specialization_ids": [
+                    4
+                ],
+                "id": 931360855088000544,
+                "role": {
+                    "name": "foundationsofsoftwareengineering",
+                    "id": 177876533369340750,
+                    "emoji": "\ud83c\udf4e"
+                }
+            },
+            {
+                "name": "Compiler and Language Processing Tools",
+                "section": "specialization",
+                "specialization_ids": [
+                    4
+                ],
+                "id": 343151105066752478,
+                "role": {
+                    "name": "compilerandlanguageprocessingtools",
+                    "id": 821753801920393485,
+                    "emoji": "\ud83c\udf50"
+                }
+            },
+            {
+                "name": "Functional Programming",
+                "section": "specialization",
+                "specialization_ids": [
+                    4
+                ],
+                "id": 368486176038465274,
+                "role": {
+                    "name": "functionalprogramming",
+                    "id": 602518346937294892,
+                    "emoji": "\ud83c\udf4a"
+                }
+            },
+            {
+                "name": "Foundations of Digital Farming",
+                "section": "specialization",
+                "specialization_ids": [
+                    4
+                ],
+                "id": 779526355480484467,
+                "role": {
+                    "name": "foundationsofdigitalfarming",
+                    "id": 792293409532659279,
+                    "emoji": "\ud83c\udf4b"
+                }
+            },
+            {
+                "name": "Empirical Methods in Software Engineering",
+                "section": "specialization",
+                "specialization_ids": [
+                    4
+                ],
+                "id": 952545199151377853,
+                "role": {
+                    "name": "empiricalmethodsinsoftwareengineering",
+                    "id": 606517757511115281,
+                    "emoji": "\ud83c\udf4c"
+                }
+            },
+            {
+                "name": "Algorithms on Strings",
+                "section": "specialization",
+                "specialization_ids": [
+                    0
+                ],
+                "id": 466080262562980676,
+                "role": {
+                    "name": "algorithmsonstrings",
+                    "id": 601194391276802377,
+                    "emoji": "\ud83c\udf49"
+                }
+            },
+            {
+                "name": "Advanced Automata Theory",
+                "section": "specialization",
+                "specialization_ids": [
+                    0
+                ],
+                "id": 270544458543438520,
+                "role": {
+                    "name": "advancedautomatatheory",
+                    "id": 555392293502167756,
+                    "emoji": "\ud83c\udf47"
+                }
+            },
+            {
+                "name": "Complexity Theory",
+                "section": "specialization",
+                "specialization_ids": [
+                    0
+                ],
+                "id": 188935731632561241,
+                "role": {
+                    "name": "complexitytheory",
+                    "id": 127065592320661802,
+                    "emoji": "\ud83c\udf53"
+                }
+            },
+            {
+                "name": "Automated Reasoning",
+                "section": "specialization",
+                "specialization_ids": [
+                    0
+                ],
+                "id": 841155103967164949,
+                "role": {
+                    "name": "automatedreasoning",
+                    "id": 269622545849080455,
+                    "emoji": "\ud83e\uded0"
+                }
+            },
+            {
+                "name": "Linear and Network Programming",
+                "section": "specialization",
+                "specialization_ids": [
+                    0
+                ],
+                "id": 300039782842148707,
+                "role": {
+                    "name": "linearandnetworkprogramming",
+                    "id": 563657795801804699,
+                    "emoji": "\ud83c\udf48"
+                }
+            },
+            {
+                "name": "Graphs and Algorithms",
+                "section": "specialization",
+                "specialization_ids": [
+                    0
+                ],
+                "id": 119465813142160571,
+                "role": {
+                    "name": "graphsandalgorithms",
+                    "id": 353516961904671879,
+                    "emoji": "\ud83c\udf52"
+                }
+            },
+            {
+                "name": "Fundamentals of Robotics",
+                "section": "specialization",
+                "specialization_ids": [
+                    1
+                ],
+                "id": 563005912378903077,
+                "role": {
+                    "name": "fundamentalsofrobotics",
+                    "id": 105521170856293392,
+                    "emoji": "\ud83c\udf51"
+                }
+            },
+            {
+                "name": "Fundamentals of Embedded Systems",
+                "section": "specialization",
+                "specialization_ids": [
+                    1
+                ],
+                "id": 183115917180451771,
+                "role": {
+                    "name": "fundamentalsofembeddedsystems",
+                    "id": 283060708619523452,
+                    "emoji": "\ud83e\udd6d"
+                }
+            },
+            {
+                "name": "Processor Architecture",
+                "section": "specialization",
+                "specialization_ids": [
+                    1
+                ],
+                "id": 863743780414485494,
+                "role": {
+                    "name": "processorarchitecture",
+                    "id": 254843895845018107,
+                    "emoji": "\ud83c\udf4d"
+                }
+            },
+            {
+                "name": "Parallel Computing",
+                "section": "specialization",
+                "specialization_ids": [
+                    1
+                ],
+                "id": 577276896896371513,
+                "role": {
+                    "name": "parallelcomputing",
+                    "id": 447321509909991731,
+                    "emoji": "\ud83e\udd65"
+                }
+            },
+            {
+                "name": "Database Systems",
+                "section": "specialization",
+                "specialization_ids": [
+                    2
+                ],
+                "id": 485354527199295640,
+                "role": {
+                    "name": "databasesystems",
+                    "id": 994309327360843734,
+                    "emoji": "\ud83e\udd5d"
+                }
+            },
+            {
+                "name": "3D Computer Vision",
+                "section": "specialization",
+                "specialization_ids": [
+                    3
+                ],
+                "id": 305033502936830041,
+                "role": {
+                    "name": "3dcomputervision",
+                    "id": 269970557975553924,
+                    "emoji": "\ud83c\udf45"
+                }
+            },
+            {
+                "name": "Quantum Computing and its Applications in AI",
+                "section": "specialization",
+                "specialization_ids": [
+                    3
+                ],
+                "id": 997909950823361053,
+                "role": {
+                    "name": "quantumcomputinganditsapplicationsinai",
+                    "id": 570935516713295289,
+                    "emoji": "\ud83c\udf46"
+                }
+            },
+            {
+                "name": "Machine Learning I - Theoretical Foundations",
+                "section": "specialization",
+                "specialization_ids": [
+                    3
+                ],
+                "id": 690865983782260026,
+                "role": {
+                    "name": "machinelearningi-theoreticalfoundations",
+                    "id": 976198208141754652,
+                    "emoji": "\ud83e\udd51"
+                }
+            },
+            {
+                "name": "Engineering with Generative AI",
+                "section": "specialization",
+                "specialization_ids": [
+                    3
+                ],
+                "id": 931274507194469591,
+                "role": {
+                    "name": "engineeringwithgenerativeai",
+                    "id": 839122876916046551,
+                    "emoji": "\ud83e\udd66"
+                }
+            },
+            {
+                "name": "Quantitative Aspects of Distributed Systems",
+                "section": "specialization",
+                "specialization_ids": [
+                    5
+                ],
+                "id": 606288668198562142,
+                "role": {
+                    "name": "quantitativeaspectsofdistributedsystems",
+                    "id": 770166056159534231,
+                    "emoji": "\ud83e\udd6c"
+                }
+            },
+            {
+                "name": "Decentralized Systems",
+                "section": "specialization",
+                "specialization_ids": [
+                    5
+                ],
+                "id": 909084132153407309,
+                "role": {
+                    "name": "decentralizedsystems",
+                    "id": 845855742820377440,
+                    "emoji": "\ud83e\udd52"
+                }
+            },
+            {
+                "name": "Network Security",
+                "section": "specialization",
+                "specialization_ids": [
+                    5
+                ],
+                "id": 586571606326191556,
+                "role": {
+                    "name": "networksecurity",
+                    "id": 283194315374342420,
+                    "emoji": "\ud83c\udf36"
+                }
+            },
+            {
+                "name": "Computer Graphics",
+                "section": "specialization",
+                "specialization_ids": [
+                    6
+                ],
+                "id": 445851490231530432,
+                "role": {
+                    "name": "computergraphics",
+                    "id": 519127779399905359,
+                    "emoji": "\ud83e\uded1"
+                }
+            },
+            {
+                "name": "Computational Geometry",
+                "section": "specialization",
+                "specialization_ids": [
+                    6
+                ],
+                "id": 809205051106698012,
+                "role": {
+                    "name": "computationalgeometry",
+                    "id": 973674520349867870,
+                    "emoji": "\ud83c\udf3d"
+                }
+            },
+            {
+                "name": "Human Computer Interaction",
+                "section": "specialization",
+                "specialization_ids": [
+                    6
+                ],
+                "id": 987815140239529537,
+                "role": {
+                    "name": "humancomputerinteraction",
+                    "id": 287501775886186286,
+                    "emoji": "\ud83e\udd55"
+                }
+            },
+            {
+                "name": "Data Visualization",
+                "section": "specialization",
+                "specialization_ids": [
+                    6
+                ],
+                "id": 213288864921460252,
+                "role": {
+                    "name": "datavisualization",
+                    "id": 389532260393576350,
+                    "emoji": "\ud83e\uddc4"
+                }
+            }
+        ]
     }
 }

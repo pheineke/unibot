@@ -161,7 +161,18 @@ class ReactionRoles(commands.Cog):
         return self.get_data(), self.get_all_course_refs(self.get_data())
 
     def _build_section_groups(self, data, courses):
-        section_groups = {}
+        SECTION_ORDER = [
+            "section-0",
+            "section-1",
+            "section-2",
+            "section-3",
+            "specialization",
+            "supplement",
+            "thesis"
+        ]
+        
+        section_groups = {sec: [] for sec in SECTION_ORDER}
+        
         processed_ids = set()
         for c in courses:
             if c.get("id") in processed_ids: continue
@@ -171,8 +182,12 @@ class ReactionRoles(commands.Cog):
             if c.get("disabled_rr"): continue # skip disabled
                 
             sec = c.get("section", "unknown")
-            section_groups.setdefault(sec, []).append(c)
-        return section_groups
+            if sec not in section_groups:
+                section_groups[sec] = []
+            section_groups[sec].append(c)
+            
+        # Remove empty sections
+        return {k: v for k, v in section_groups.items() if v}
 
     def _build_message_content(self, data, sec, sec_courses):
         sec_name = sec
@@ -181,10 +196,48 @@ class ReactionRoles(commands.Cog):
             if eng_name: sec_name = eng_name
                 
         lines = [f"### {sec_name.replace('-', ' ').upper()}"]
-        for c in sec_courses:
-            emoji = c.get("role", {}).get("emoji", "❓")
-            mod = f" ({c['module']})" if "module" in c else ""
-            lines.append(f"{emoji} **{c.get('name', 'Unknown').replace('-', ' ').title()}**{mod} - <#{c['id']}>")
+        
+        if sec == "specialization" and "specialization" in data.get("section", {}):
+            spec_defs = {s["id"]: s["name"] for s in data["section"]["specialization"]}
+            
+            # Group courses by specialization
+            spec_groups = {}
+            unmatched = []
+            
+            for c in sec_courses:
+                sids = c.get("specialization_ids", [])
+                if not sids:
+                    unmatched.append(c)
+                else:
+                    for sid in sids:
+                        spec_groups.setdefault(sid, []).append(c)
+            
+            # Write out each specialization subgroup
+            for sid, subset in sorted(spec_groups.items()):
+                s_name = spec_defs.get(sid, f"Category {sid}")
+                lines.append(f"\n**{s_name.replace('-', ' ').title()}**")
+                # Ensure no duplicates per sub-header
+                seen_c = set()
+                for c in subset:
+                    if c["id"] in seen_c: continue
+                    seen_c.add(c["id"])
+                    
+                    emoji = c.get("role", {}).get("emoji", "❓")
+                    mod = f" ({c['module']})" if "module" in c else ""
+                    lines.append(f"{emoji} {c.get('name', 'Unknown')} - <#{c['id']}>")
+                    
+            if unmatched:
+                lines.append("\n**Other Specializations**")
+                for c in unmatched:
+                    emoji = c.get("role", {}).get("emoji", "❓")
+                    mod = f" ({c['module']})" if "module" in c else ""
+                    lines.append(f"{emoji} {c.get('name', 'Unknown')} - <#{c['id']}>")
+        else:
+            for c in sec_courses:
+                emoji = c.get("role", {}).get("emoji", "❓")
+                mod = f" ({c['module']})" if "module" in c else ""
+                lines.append(f"{emoji} {c.get('name', 'Unknown')} - <#{c['id']}>")
+                
         return "\n".join(lines)
 
     @commands.group(name='rr', invoke_without_command=True)
