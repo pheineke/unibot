@@ -3,6 +3,7 @@ from discord.ext import commands
 import json
 import asyncio
 import datetime
+import traceback
 
 def get_current_semester():
     now = datetime.datetime.now()
@@ -23,7 +24,6 @@ class SemesterSelect(discord.ui.Select):
         y = current_year
         s = current_season
 
-        # Generate the last 25 semesters backwards dynamically
         for i in range(25):
             label = f"SoSe {y}" if s == "summer" else f"WiSe {y}/{y+1-2000}"
             val = f"{s}_{y}"
@@ -45,46 +45,36 @@ class SemesterSelect(discord.ui.Select):
 
     async def callback(self, interaction: discord.Interaction):
         await interaction.response.defer(ephemeral=True)
-        
-        selected_val = self.values[0]
-        start_season, start_year_str = selected_val.split("_")
-        start_year = int(start_year_str)
-        
-        current_season, current_year = get_current_semester()
-        
-        def get_sem_id(season, year):
-            return year * 2 if season == "summer" else year * 2 + 1
-            
-        start_id = get_sem_id(start_season, start_year)
-        curr_id = get_sem_id(current_season, current_year)
-        
-        sem = (curr_id - start_id) + 1
-        if sem < 1:
-            sem = 1
-            
-        role_prefix = "b_sem" if self.degree_type == "bachelor" else "m_sem"
-        role_name = f"{role_prefix}{sem}"
-        
-        guild = interaction.guild
-        member = interaction.user
-        
-        role = discord.utils.get(guild.roles, name=role_name)
-        if not role:
-            try:
-                role = await guild.create_role(name=role_name, reason="Dynamic semester role")
-            except Exception as e:
-                await interaction.followup.send(f"❌ Failed to create role {role_name}: {e}", ephemeral=True)
-                return
-                
-        # Remove any existing semantic roles of this type
-        roles_to_remove = [r for r in member.roles if r.name.startswith(role_prefix) and r.name != role_name]
-        if roles_to_remove:
-            try:
-                await member.remove_roles(*roles_to_remove)
-            except:
-                pass
-                
         try:
+            selected_val = self.values[0]
+            start_season, start_year_str = selected_val.split("_")
+            start_year = int(start_year_str)
+            
+            current_season, current_year = get_current_semester()
+            
+            def get_sem_id(season, year):
+                return year * 2 if season == "summer" else year * 2 + 1
+                
+            start_id = get_sem_id(start_season, start_year)
+            curr_id = get_sem_id(current_season, current_year)
+            
+            sem = (curr_id - start_id) + 1
+            if sem < 1: sem = 1
+                
+            role_prefix = "b_sem" if self.degree_type == "bachelor" else "m_sem"
+            role_name = f"{role_prefix}{sem}"
+            
+            guild = interaction.guild
+            member = interaction.user
+            
+            role = discord.utils.get(guild.roles, name=role_name)
+            if not role:
+                role = await guild.create_role(name=role_name, reason="Dynamic semester role")
+                    
+            roles_to_remove = [r for r in member.roles if r.name.startswith(role_prefix) and r.name != role_name]
+            if roles_to_remove:
+                await member.remove_roles(*roles_to_remove)
+                    
             await member.add_roles(role)
             await interaction.followup.send(f"✅ Your role has been updated to **{role_name}**!", ephemeral=True)
         except Exception as e:
@@ -103,7 +93,6 @@ class ReactionRoles(commands.Cog):
         self.bot = bot
 
     async def cog_load(self):
-        # Register the persistent view so it survives restarts
         self.bot.add_view(SemesterView())
 
     def get_data(self):
@@ -115,10 +104,9 @@ class ReactionRoles(commands.Cog):
             json.dump(data, f, indent=4)
 
     def get_all_course_refs(self, data):
-        """Returns a list of all course dictionaries to modify them by ref"""
         courses = []
         for key, value in data.items():
-            if key == "section" or key.startswith("reaction") or key == "semester_roles" or key == "semester_config":
+            if key in ["section", "reaction_messages", "reaction_channel", "semester_config"]:
                 continue
             if isinstance(value, dict) and "courses" in value:
                 courses.extend(value["courses"])
@@ -126,83 +114,14 @@ class ReactionRoles(commands.Cog):
                 courses.append(value)
         return courses
 
-    @commands.group(name='rr', invoke_without_command=True)
-    @commands.has_permissions(manage_roles=True)
-    async def rr_group(self, ctx):
-        """Reaction Roles commands"""
-        await ctx.send("Usage:\n`!rr setup [channel_id]` - Setup or update messages (defaults to current channel)\n`!rr editemoji <course_name>` - Change emoji for a course\n`!rr semesters [channel_id]` - Setup interactive dynamic semester dropdowns")
-
-    @rr_group.command(name='semesters')
-    @commands.has_permissions(manage_roles=True)
-    async def rr_semesters(self, ctx, target_channel: discord.TextChannel = None):
-        """
-        Builds the interactive dynamic semester role selection dropdown menus.
-        Usage: !rr semesters [channel_id] (defaults to current channel)
-        """
-        if target_channel is None:
-            target_channel = ctx.channel
-        
-        data = self.get_data()
-        
-        # Clean old interactive message
-        sem_data = data.get("semester_config", {})
-        old_msg_id = sem_data.get("message_id")
-        old_chan_id = sem_data.get("channel_id")
-        
-        if old_chan_id and old_msg_id:
-            old_chan = self.bot.get_channel(int(old_chan_id))
-            if old_chan:
-                try:
-                    msg = await old_chan.fetch_message(int(old_msg_id))
-                    await msg.delete()
-                except:
-                    pass
-                            
-        embed = discord.Embed(
-            title="🎓 Choose your Starting Semester",
-            description="Select the semester you began your degree to automatically receive your current semester role (e.g. `b_sem8`).\nThe calculation automatically updates as time passes!",
-            color=0x3498db
-        )
-        
-        msg = await target_channel.send(embed=embed, view=SemesterView())
-        
-        # Save to data
-        data["semester_config"] = {
-            "channel_id": str(target_channel.id),
-            "message_id": str(msg.id)
-        }
-        self.save_data(data)
-        
-        await ctx.send(f"✅ Dynamic dropdown UI deployed to {target_channel.mention}!")
-
-    @rr_group.command(name='setup')
-    @commands.has_permissions(manage_roles=True)
-    async def rr_setup(self, ctx, target_channel: discord.TextChannel = None):
-        """
-        Interactively builds the reaction role directory inside a specific channel.
-        If any courses are missing emojis, the bot will prompt you to set them first.
-        It then deletes any old reaction messages and posts a fresh set grouped by section.
-        Usage: !rr setup [channel_id] (defaults to current channel)
-        """
-        if target_channel is None:
-            target_channel = ctx.channel
-            
-        data = self.get_data()
-        courses = self.get_all_course_refs(data)
-        
-        # 1. Check for missing emojis and prompt
+    async def _prompt_missing_emojis(self, ctx, data, courses):
         missing_count = 0
-        processed_check_ids = set()
         for c in courses:
-            c_id = c.get("id")
-            if not c_id or c_id in processed_check_ids:
-                continue
-            processed_check_ids.add(c_id)
-            if "role" in c and "id" in c["role"] and (not c["role"].get("emoji")):
+            if "role" in c and "id" in c["role"] and not c["role"].get("emoji"):
                 missing_count += 1
-        
+                
         if missing_count > 0:
-            await ctx.send(f"Found **{missing_count}** courses without an assigned emoji. I will prompt you for each now. React to my messages!")
+            await ctx.send(f"Found **{missing_count}** courses without an assigned emoji. Please react to my prompts...")
             
         processed_ids = set()
         for course in courses:
@@ -211,133 +130,262 @@ class ReactionRoles(commands.Cog):
                 continue
             processed_ids.add(c_id)
             
+            if course.get("disabled_rr"): 
+                continue
+            
             role_dict = course.get("role", {})
-            if "id" not in role_dict:
+            if "id" not in role_dict or role_dict.get("emoji"):
                 continue
                 
-            if "emoji" not in role_dict or not role_dict["emoji"]:
-                msg_content = f"Please react to this message to assign an emoji for: **{course.get('name')}**"
-                msg = await ctx.send(msg_content)
-                await msg.add_reaction("📚")
+            msg = await ctx.send(f"Please react to this message to assign an emoji for: **{course.get('name')}**")
+            await msg.add_reaction("📚")
+            
+            def check(reaction, user):
+                return user == ctx.author and reaction.message.id == msg.id
                 
-                def check(reaction, user):
-                    return user == ctx.author and reaction.message.id == msg.id
-                    
-                try:
-                    reaction, user = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
-                    chosen_emoji = str(reaction.emoji)
-                    
-                    # Update explicitly ALL references of this course
-                    for c_ref in courses:
-                        if c_ref.get("id") == c_id:
-                            if "role" not in c_ref:
-                                c_ref["role"] = {}
-                            c_ref["role"]["emoji"] = chosen_emoji
-                            
-                    self.save_data(data) # save immediately just in case
-                    await msg.edit(content=f"✅ Set {chosen_emoji} for **{course.get('name')}**.")
-                except asyncio.TimeoutError:
-                    await msg.edit(content=f"⏳ Timed out waiting. Using default 📚 for **{course.get('name')}**.")
-                    for c_ref in courses:
-                        if c_ref.get("id") == c_id:
-                            if "role" not in c_ref:
-                                c_ref["role"] = {}
-                            c_ref["role"]["emoji"] = "📚"
-                    self.save_data(data)
+            try:
+                reaction, user = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
+                chosen_emoji = str(reaction.emoji)
+                for c_ref in courses:
+                    if c_ref.get("id") == c_id:
+                        c_ref.setdefault("role", {})["emoji"] = chosen_emoji
+                self.save_data(data)
+                await msg.edit(content=f"✅ Set {chosen_emoji} for **{course.get('name')}**.")
+            except asyncio.TimeoutError:
+                await msg.edit(content=f"⏳ Timed out waiting. Using default 📚 for **{course.get('name')}**.")
+                for c_ref in courses:
+                    if c_ref.get("id") == c_id:
+                        c_ref.setdefault("role", {})["emoji"] = "📚"
+                self.save_data(data)
+                
+        return self.get_data(), self.get_all_course_refs(self.get_data())
 
-        # Reload data as we might have modified it heavily
+    def _build_section_groups(self, data, courses):
+        section_groups = {}
+        processed_ids = set()
+        for c in courses:
+            if c.get("id") in processed_ids: continue
+            processed_ids.add(c.get("id"))
+            
+            if "role" not in c or "id" not in c["role"]: continue
+            if c.get("disabled_rr"): continue # skip disabled
+                
+            sec = c.get("section", "unknown")
+            section_groups.setdefault(sec, []).append(c)
+        return section_groups
+
+    def _build_message_content(self, data, sec, sec_courses):
+        sec_name = sec
+        if "section" in data and sec in data["section"]:
+            eng_name = next((n["name"] for n in data["section"][sec] if n["lang"] == "eng"), None)
+            if eng_name: sec_name = eng_name
+                
+        lines = [f"### {sec_name.replace('-', ' ').upper()}"]
+        for c in sec_courses:
+            emoji = c.get("role", {}).get("emoji", "❓")
+            mod = f" ({c['module']})" if "module" in c else ""
+            lines.append(f"{emoji} **{c.get('name', 'Unknown').replace('-', ' ').title()}**{mod} - <#{c['id']}>")
+        return "\n".join(lines)
+
+    @commands.group(name='rr', invoke_without_command=True)
+    @commands.has_permissions(manage_roles=True)
+    async def rr_group(self, ctx):
+        """Reaction Roles configuration commands"""
+        pass
+
+    @rr_group.group(name='setup', invoke_without_command=True)
+    @commands.has_permissions(manage_roles=True)
+    async def rr_setup(self, ctx):
+        await ctx.send("Usage: `!rr setup courses` or `!rr setup semesters`")
+        
+    @rr_group.group(name='update', invoke_without_command=True)
+    @commands.has_permissions(manage_roles=True)
+    async def rr_update(self, ctx):
+        await ctx.send("Usage: `!rr update courses`")
+
+    @rr_setup.command(name='semesters')
+    @commands.has_permissions(manage_roles=True)
+    async def rr_setup_semesters(self, ctx, target_channel: discord.TextChannel = None):
+        target_channel = target_channel or ctx.channel
+        data = self.get_data()
+        
+        sem_data = data.get("semester_config", {})
+        if sem_data.get("channel_id") and sem_data.get("message_id"):
+            old_chan = self.bot.get_channel(int(sem_data["channel_id"]))
+            if old_chan:
+                try:
+                    msg = await old_chan.fetch_message(int(sem_data["message_id"]))
+                    await msg.delete()
+                except: pass
+                            
+        embed = discord.Embed(
+            title="🎓 Choose your Starting Semester",
+            description="Select the semester you began your degree to automatically receive your current semester role (e.g. `b_sem8`).\nThe calculation automatically updates as time passes!",
+            color=0x3498db
+        )
+        
+        try:
+            msg = await target_channel.send(embed=embed, view=SemesterView())
+            data["semester_config"] = {"channel_id": str(target_channel.id), "message_id": str(msg.id)}
+            self.save_data(data)
+            await ctx.send(f"✅ Dynamic dropdown UI deployed to {target_channel.mention}!")
+        except Exception as e:
+            await ctx.send(f"❌ Failed to post semester messages: {e}")
+
+    @rr_setup.command(name='courses')
+    @commands.has_permissions(manage_roles=True)
+    async def rr_setup_courses(self, ctx, target_channel: discord.TextChannel = None):
+        target_channel = target_channel or ctx.channel
         data = self.get_data()
         courses = self.get_all_course_refs(data)
         
-        # 2. Delete old messages if they exist
-        if "reaction_messages" in data:
-            old_channel_id = data.get("reaction_channel")
-            if old_channel_id:
-                old_chan = self.bot.get_channel(int(old_channel_id))
+        try:
+            data, courses = await self._prompt_missing_emojis(ctx, data, courses)
+            
+            # Clean old messages
+            if "reaction_channel" in data and "reaction_messages" in data:
+                old_chan = self.bot.get_channel(int(data["reaction_channel"]))
                 if old_chan:
                     for msg_id in data["reaction_messages"].keys():
                         try:
                             old_msg = await old_chan.fetch_message(int(msg_id))
                             await old_msg.delete()
-                        except:
-                            pass
-                            
-        data["reaction_messages"] = {}
-        data["reaction_channel"] = str(target_channel.id)
+                        except: pass
+                                
+            data["reaction_messages"] = {}
+            data["reaction_channel"] = str(target_channel.id)
 
-        # 3. Post messages grouped by section
-        section_groups = {}
-        processed_ids = set()
-        for c in courses:
-            if c.get("id") in processed_ids:
-                continue
-            processed_ids.add(c.get("id"))
+            section_groups = self._build_section_groups(data, courses)
             
-            if "role" not in c or "id" not in c["role"]:
-                continue
+            for sec, sec_courses in section_groups.items():
+                if not sec_courses: continue
+                msg_content = self._build_message_content(data, sec, sec_courses)
                 
-            sec = c.get("section", "unknown")
-            if sec not in section_groups:
-                section_groups[sec] = []
-            section_groups[sec].append(c)
-
-        for sec, sec_courses in section_groups.items():
-            # lookup section name
-            sec_name = sec
-            if "section" in data and sec in data["section"]:
-                sec_list = data["section"][sec]
-                eng_name = next((n["name"] for n in sec_list if n["lang"] == "eng"), None)
-                if eng_name:
-                    sec_name = eng_name
-            
-            # format message
-            lines = [f"### {sec_name.replace('-', ' ').upper()}"]
-            for c in sec_courses:
-                emoji = c.get("role", {}).get("emoji", "❓")
-                mod = f" ({c['module']})" if "module" in c else ""
-                lines.append(f"{emoji} **{c.get('name', 'Unknown').replace('-', ' ').title()}**{mod} - <#{c['id']}>")
-                
-            msg_content = "\n".join(lines)
-            
-            if len(sec_courses) > 0:
                 msg = await target_channel.send(msg_content)
-                # save to global config matching exactly the section
                 data["reaction_messages"][str(msg.id)] = sec
-                self.save_data(data) # save immediately so listener sees it
+                self.save_data(data)
                 
-                # add reactions to the message
                 for c in sec_courses:
                     emoji = c.get("role", {}).get("emoji")
                     if emoji:
-                        try:
-                            await msg.add_reaction(emoji)
-                        except Exception as e:
-                            print(f"Failed to add reaction {emoji}: {e}")
-                            
-        await ctx.send(f"✅ Reaction roles setup complete in {target_channel.mention}!")
+                        try: await msg.add_reaction(emoji)
+                        except: pass
+            
+            await ctx.send(f"✅ Reaction roles setup complete in {target_channel.mention}!")
+        except Exception as e:
+            await ctx.send(f"❌ **Error during setup:** `{e}`\n```py\n{traceback.format_exc()[-500:]}\n```")
+
+    @rr_update.command(name='courses')
+    @commands.has_permissions(manage_roles=True)
+    async def rr_update_courses(self, ctx, target_channel: discord.TextChannel = None):
+        data = self.get_data()
+        
+        if "reaction_messages" not in data or not data.get("reaction_channel"):
+            await ctx.send("❌ No existing setup found. Run `!rr setup courses` first.")
+            return
+
+        target_channel = self.bot.get_channel(int(data["reaction_channel"]))
+        if not target_channel:
+            await ctx.send("❌ Old setup channel not found. Please run `!rr setup courses` again.")
+            return
+
+        courses = self.get_all_course_refs(data)
+        
+        try:
+            data, courses = await self._prompt_missing_emojis(ctx, data, courses)
+            section_groups = self._build_section_groups(data, courses)
+            
+            # Maps current DB section string to message IDs
+            sec_to_msg = {v: k for k, v in data.get("reaction_messages", {}).items()}
+            new_reaction_messages = {}
+
+            for sec, sec_courses in section_groups.items():
+                if not sec_courses: continue
+                msg_content = self._build_message_content(data, sec, sec_courses)
+                
+                if sec in sec_to_msg:
+                    # Message exists, lets edit!
+                    try:
+                        msg_id = int(sec_to_msg[sec])
+                        msg = await target_channel.fetch_message(msg_id)
+                        await msg.edit(content=msg_content)
+                        new_reaction_messages[str(msg.id)] = sec
+                        
+                        # Add new reactions, leave old ones
+                        for c in sec_courses:
+                            emoji = c.get("role", {}).get("emoji")
+                            if emoji:
+                                try: await msg.add_reaction(emoji)
+                                except: pass
+                    except discord.NotFound:
+                        # Message deleted manually, post a new one
+                        msg = await target_channel.send(msg_content)
+                        new_reaction_messages[str(msg.id)] = sec
+                        for c in sec_courses:
+                            if c.get("role", {}).get("emoji"):
+                                try: await msg.add_reaction(c["role"]["emoji"])
+                                except: pass
+                else:
+                    # Brand new section!
+                    msg = await target_channel.send(msg_content)
+                    new_reaction_messages[str(msg.id)] = sec
+                    for c in sec_courses:
+                        if c.get("role", {}).get("emoji"):
+                            try: await msg.add_reaction(c["role"]["emoji"])
+                            except: pass
+
+            data["reaction_messages"] = new_reaction_messages
+            self.save_data(data)
+            await ctx.send("✅ Reaction roles updated seamlessly!")
+            
+        except Exception as e:
+            await ctx.send(f"❌ **Error during update:** `{e}`\n```py\n{traceback.format_exc()[-500:]}\n```")
+
+    @rr_group.command(name='disable')
+    @commands.has_permissions(manage_roles=True)
+    async def rr_disable(self, ctx, *, course_name: str):
+        data = self.get_data()
+        courses = self.get_all_course_refs(data)
+        
+        target = next((c for c in courses if course_name.lower() in c.get("name", "").lower()), None)
+        if not target:
+            return await ctx.send(f"❌ Course matching `{course_name}` not found.")
+            
+        for c_ref in courses:
+            if c_ref.get("id") == target["id"]:
+                c_ref["disabled_rr"] = True
+                
+        self.save_data(data)
+        await ctx.send(f"✅ Disabled **{target.get('name')}**. Run `!rr update courses` to apply changes visually.")
+        
+    @rr_group.command(name='enable')
+    @commands.has_permissions(manage_roles=True)
+    async def rr_enable(self, ctx, *, course_name: str):
+        data = self.get_data()
+        courses = self.get_all_course_refs(data)
+        
+        target = next((c for c in courses if course_name.lower() in c.get("name", "").lower()), None)
+        if not target:
+            return await ctx.send(f"❌ Course matching `{course_name}` not found.")
+            
+        for c_ref in courses:
+            if c_ref.get("id") == target["id"]:
+                c_ref["disabled_rr"] = False
+                
+        self.save_data(data)
+        await ctx.send(f"✅ Enabled **{target.get('name')}**. Run `!rr update courses` to apply changes visually.")
 
     @rr_group.command(name='editemoji')
     @commands.has_permissions(manage_roles=True)
     async def rr_editemoji(self, ctx, *, course_name: str):
-        """
-        Manually replace or update an emoji for a specific course by reacting to the prompt.
-        Usage: !rr editemoji software development
-        After setting, you must run !rr setup again to visually refresh the embeds!
-        """
         data = self.get_data()
         courses = self.get_all_course_refs(data)
         
-        target_course = None
-        for c in courses:
-            if course_name.lower() in c.get("name", "").lower():
-                target_course = c
-                break
-                
-        if not target_course:
-            await ctx.send(f"❌ Course matching `{course_name}` not found.")
-            return
+        target = next((c for c in courses if course_name.lower() in c.get("name", "").lower()), None)
+        if not target:
+            return await ctx.send(f"❌ Course matching `{course_name}` not found.")
             
-        msg = await ctx.send(f"Please react to this message to assign a new emoji for: **{target_course.get('name')}**")
+        msg = await ctx.send(f"Please react to this message to assign a new emoji for: **{target.get('name')}**")
         await msg.add_reaction("📚")
         
         def check(reaction, user):
@@ -347,72 +395,52 @@ class ReactionRoles(commands.Cog):
             reaction, user = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
             chosen_emoji = str(reaction.emoji)
             
-            c_id = target_course["id"]
             for c_ref in courses:
-                if c_ref.get("id") == c_id:
-                    if "role" not in c_ref:
-                        c_ref["role"] = {}
-                    c_ref["role"]["emoji"] = chosen_emoji
+                if c_ref.get("id") == target["id"]:
+                    c_ref.setdefault("role", {})["emoji"] = chosen_emoji
                     
             self.save_data(data)
-            await ctx.send(f"✅ Set {chosen_emoji} for {target_course.get('name')}. Run `!rr setup <#channel>` to update the messages visually.")
+            await ctx.send(f"✅ Set {chosen_emoji} for {target.get('name')}. Run `!rr update courses` to apply changes.")
         except asyncio.TimeoutError:
             await ctx.send("⏳ Timed out.")
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        if payload.user_id == self.bot.user.id:
-            return
+        if payload.user_id == self.bot.user.id: return
         await self.handle_reaction(payload, True)
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
-        if payload.user_id == self.bot.user.id:
-            return
+        if payload.user_id == self.bot.user.id: return
         await self.handle_reaction(payload, False)
 
     async def handle_reaction(self, payload, is_add):
         data = self.get_data()
-        msg_id_str = str(payload.message_id)
-        
         reaction_messages = data.get("reaction_messages", {})
-        if msg_id_str not in reaction_messages:
-            return
-            
-        section = reaction_messages[msg_id_str]
-        emoji_str = str(payload.emoji)
         
+        if str(payload.message_id) not in reaction_messages: return
+            
+        section = reaction_messages[str(payload.message_id)]
+        emoji_str = str(payload.emoji)
         courses = self.get_all_course_refs(data)
         
-        role_id = None
-        for c in courses:
-            if c.get("section") == section:
-                if c.get("role", {}).get("emoji") == emoji_str:
-                    role_id = c.get("role", {}).get("id")
-                    break
-                    
-        if not role_id:
-            return
+        role_id = next((c.get("role", {}).get("id") for c in courses 
+                       if c.get("section") == section 
+                       and c.get("role", {}).get("emoji") == emoji_str
+                       and not c.get("disabled_rr")), None)
+                       
+        if not role_id: return
             
         guild = self.bot.get_guild(payload.guild_id)
-        if not guild:
-            return
-            
+        if not guild: return
         member = guild.get_member(payload.user_id)
-        if not member:
-            return
-            
         role = guild.get_role(role_id)
-        if not role:
-            return
+        if not member or not role: return
             
         try:
-            if is_add:
-                await member.add_roles(role)
-            else:
-                await member.remove_roles(role)
-        except Exception as e:
-            print(f"Failed to {'add' if is_add else 'remove'} role: {e}")
+            if is_add: await member.add_roles(role)
+            else: await member.remove_roles(role)
+        except: pass
 
 async def setup(bot):
     await bot.add_cog(ReactionRoles(bot))
