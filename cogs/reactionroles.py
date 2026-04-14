@@ -130,15 +130,18 @@ class ReactionRoles(commands.Cog):
     @commands.has_permissions(manage_roles=True)
     async def rr_group(self, ctx):
         """Reaction Roles commands"""
-        await ctx.send("Usage:\n`!rr setup <#channel>` - Setup or update messages\n`!rr editemoji <course_name>` - Change emoji for a course\n`!rr semesters <#channel>` - Setup interactive dynamic semester dropdowns")
+        await ctx.send("Usage:\n`!rr setup [channel_id]` - Setup or update messages (defaults to current channel)\n`!rr editemoji <course_name>` - Change emoji for a course\n`!rr semesters [channel_id]` - Setup interactive dynamic semester dropdowns")
 
     @rr_group.command(name='semesters')
     @commands.has_permissions(manage_roles=True)
-    async def rr_semesters(self, ctx, target_channel: discord.TextChannel):
+    async def rr_semesters(self, ctx, target_channel: discord.TextChannel = None):
         """
         Builds the interactive dynamic semester role selection dropdown menus.
-        Usage: !rr semesters #choose-roles
+        Usage: !rr semesters [channel_id] (defaults to current channel)
         """
+        if target_channel is None:
+            target_channel = ctx.channel
+        
         data = self.get_data()
         
         # Clean old interactive message
@@ -174,13 +177,16 @@ class ReactionRoles(commands.Cog):
 
     @rr_group.command(name='setup')
     @commands.has_permissions(manage_roles=True)
-    async def rr_setup(self, ctx, target_channel: discord.TextChannel):
+    async def rr_setup(self, ctx, target_channel: discord.TextChannel = None):
         """
         Interactively builds the reaction role directory inside a specific channel.
         If any courses are missing emojis, the bot will prompt you to set them first.
         It then deletes any old reaction messages and posts a fresh set grouped by section.
-        Usage: !rr setup #choose-roles
+        Usage: !rr setup [channel_id] (defaults to current channel)
         """
+        if target_channel is None:
+            target_channel = ctx.channel
+            
         data = self.get_data()
         courses = self.get_all_course_refs(data)
         
