@@ -27,7 +27,7 @@ VALID_MINUTES_BY_HOUR = {
     "13": set(MINUTE_OPTIONS),
 }
 
-MENSATIME_PATTERN = re.compile(r"^my\.mensatime\s*=\s*(none|\d{1,2}(?::\d{2})?)\s*$", re.IGNORECASE)
+MENSATIME_PATTERN = re.compile(r"^my\.mensatime\s*=\s*(none|now|\d{1,2}(?::\d{2})?)\s*$", re.IGNORECASE)
 
 
 class MensaButton(discord.ui.Button):
@@ -177,6 +177,14 @@ class Mensa(commands.Cog):
         raw_value = match.group(1).lower()
         if raw_value == "none":
             return {"action": "clear"}
+
+        if raw_value == "now":
+            requested_time = datetime.datetime.now().time()
+            return {
+                "action": "set",
+                "requested": requested_time,
+                "closest": self.get_closest_timeslot(requested_time),
+            }
 
         if ":" in raw_value:
             hour_part, minute_part = raw_value.split(":", 1)
