@@ -7,6 +7,10 @@
         "description": "First select an hour, then a minute. Registered users are displayed as buttons.\n\n_The schedule is automatically reset every day at 14:00._"
     },
     "reset-time": "14:00",
-    "message_id": 1501904493900730478,
-    "selections": {}
+    "message_id": 1501927078696849558,
+    "selections": {
+        "417073119254282240": {
+            "not_attending": true
+        }
+    }
 }

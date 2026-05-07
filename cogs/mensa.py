@@ -27,6 +27,8 @@ VALID_MINUTES_BY_HOUR = {
     "13": set(MINUTE_OPTIONS),
 }
 
+NOT_ATTENDING_LABEL = "Geht nicht Mensa"
+
 MENSATIME_PATTERN = re.compile(r"^my\.mensatime\s*=\s*(none|now|\d{1,2}(?::\d{2})?)\s*$", re.IGNORECASE)
 
 
@@ -158,8 +160,13 @@ class Mensa(commands.Cog):
 
     def build_buckets(self, data):
         buckets = {time_str: [] for time_str in VALID_TIMES}
+        not_attending = []
 
         for user_id, selection in data.get("selections", {}).items():
+            if selection.get("not_attending"):
+                not_attending.append(int(user_id))
+                continue
+
             hour = selection.get("hour")
             minute = selection.get("minute")
             if not self.is_valid_combination(hour, minute):
@@ -167,6 +174,7 @@ class Mensa(commands.Cog):
 
             buckets[f"{hour}:{minute}"].append(int(user_id))
 
+        buckets[NOT_ATTENDING_LABEL] = not_attending
         return buckets
 
     def parse_time_input(self, content):
@@ -246,14 +254,15 @@ class Mensa(commands.Cog):
         user_key = str(message.author.id)
 
         if parsed["action"] == "clear":
-            if user_key not in selections:
+            previous = selections.get(user_key)
+            if previous and previous.get("not_attending"):
                 try:
                     await message.delete()
                 except (discord.Forbidden, discord.NotFound):
                     pass
                 return
 
-            removed_selection = selections.pop(user_key)
+            selections[user_key] = {"not_attending": True}
             self.save_data(data)
             await self.update_embed()
 
@@ -266,7 +275,7 @@ class Mensa(commands.Cog):
             if isinstance(channel, discord.abc.Messageable):
                 try:
                     await channel.send(
-                        f"{message.author.mention} wurde aus {removed_selection.get('hour')}:{removed_selection.get('minute')} ausgetragen.",
+                        f"{message.author.mention} wurde in '{NOT_ATTENDING_LABEL}' eingetragen.",
                         delete_after=5,
                     )
                 except discord.Forbidden:
@@ -390,6 +399,11 @@ class Mensa(commands.Cog):
             value = "\n".join([f"<@{user_id}>" for user_id in users]) if users else "_Nobody yet_"
             embed.add_field(name=time_str, value=value, inline=True)
 
+        # Add a field for users who can't make Mensa
+        not_attending = buckets.get(NOT_ATTENDING_LABEL, [])
+        value = "\n".join([f"<@{user_id}>" for user_id in not_attending]) if not_attending else "_Nobody_"
+        embed.add_field(name=NOT_ATTENDING_LABEL, value=value, inline=False)
+
         msg_id = data.get("message_id")
         msg = None
         if msg_id:
@@ -424,6 +438,8 @@ class Mensa(commands.Cog):
         selections = data.setdefault("selections", {})
         user_key = str(interaction.user.id)
         selection = selections.setdefault(user_key, {"hour": None, "minute": None})
+        # If the user was previously marked as not attending, clear that flag
+        selection.pop("not_attending", None)
         note = None
 
         if kind == "hour":
@@ -477,17 +493,18 @@ class Mensa(commands.Cog):
 
         selections = data.setdefault("selections", {})
         user_key = str(interaction.user.id)
-        if user_key not in selections:
-            await interaction.response.send_message("Du bist aktuell in keinem Slot eingetragen.", ephemeral=True)
+
+        previous = selections.get(user_key)
+        if previous and previous.get("not_attending"):
+            await interaction.response.send_message("Du bist bereits in 'Geht nicht Mensa'.", ephemeral=True)
             return
 
-        removed_selection = selections.pop(user_key)
+        selections[user_key] = {"not_attending": True}
         self.save_data(data)
         await interaction.response.defer(ephemeral=True)
         await self.update_embed()
 
-        removed_time = f"{removed_selection.get('hour')}:{removed_selection.get('minute')}"
-        await interaction.followup.send(f"Du wurdest aus {removed_time} ausgetragen.", ephemeral=True)
+        await interaction.followup.send(f"Du wurdest in '{NOT_ATTENDING_LABEL}' eingetragen.", ephemeral=True)
 
     async def handle_user_button(self, interaction, target_user_id, time_str):
         data = self.get_data()
@@ -503,6 +520,11 @@ class Mensa(commands.Cog):
         selections = data.setdefault("selections", {})
 
         hour, minute = time_str.split(":", 1)
+        current_selection = selections.get(str(interaction.user.id))
+        if current_selection and current_selection.get("not_attending"):
+            # override not_attending when user selects a timeslot
+            current_selection.pop("not_attending", None)
+
         current_selection = selections.get(str(interaction.user.id))
         if current_selection and current_selection.get("hour") == hour and current_selection.get("minute") == minute:
             await interaction.response.send_message(
