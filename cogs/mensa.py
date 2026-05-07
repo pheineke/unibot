@@ -340,7 +340,7 @@ class Mensa(commands.Cog):
         except discord.Forbidden:
             pass
 
-    @tasks.loop(minutes=20)
+    @tasks.loop(minutes=1)
     async def check_reset_time(self):
         data = self.get_data()
         if not data:
